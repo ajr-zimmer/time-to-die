@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TimeToDie</string>
-    <string name="hello_world">Hello World!</string>
-    <string name="tap_me">Tap Me!</string>
+    <string name="edit_message">Hello World!</string>
+    <string name="button_send">Send</string>
 
 
 </resources>

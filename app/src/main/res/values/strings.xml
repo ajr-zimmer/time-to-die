@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">TimeToDie</string>
-    <string name="edit_message">Hello World!</string>
-    <string name="button_send">Send</string>
+    <string name="years_alive">How many years have you been alive?</string>
+    <string name="years_save">Save</string>
+    <string name="years_show">Show Me</string>
+    <string name="years_submit">Submit</string>
 
 
 </resources>

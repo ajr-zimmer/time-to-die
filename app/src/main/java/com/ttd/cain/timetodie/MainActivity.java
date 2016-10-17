@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    public final static String EXTRA_MESSAGE = "com.ttd.cain.timetodie.MESSAGE";
+    //public final static String EXTRA_MESSAGE = "com.ttd.cain.timetodie.MESSAGE";
 
     EditText yearsAlive;
     TextView yearsShown;
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         yearsAlive = (EditText) findViewById(R.id.years_alive);
-        yearsShown = (TextView) findViewById(R.id.years_shown);
+        yearsShown = (TextView) findViewById(R.id.years_show);
 
     }
 
@@ -46,11 +46,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /** Sends information in text field to the next activity for display */
-    public void submitYears(View view){
+    /*public void submitYears(View view){
         Intent intent = new Intent(this, DisplayMessageActivity.class);
         EditText editText = (EditText) findViewById(R.id.years_alive);
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
+    startActivity(intent);
+    }*/
+    /** Saves and moves on to country info activity */
+    public void submitYears(View view){
+        SharedPreferences sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("userage", yearsAlive.getText().toString());
+        editor.apply();
+
+        Toast.makeText(this, "Submitting and continuing", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, ObtainCountryActivity.class);
         startActivity(intent);
     }
 

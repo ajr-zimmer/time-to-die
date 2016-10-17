@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">TimeToDie</string>
     <string name="years_alive">How many years have you been alive?</string>
-    <string name="years_save">Save</string>
-    <string name="years_show">Show Me</string>
-    <string name="years_submit">Submit</string>
+    <string name="info_save">Save</string>
+    <string name="info_show">Show Me</string>
+    <string name="info_submit">Submit</string>
+    <string name="residence_country">Where are you living?</string>
 
 
 </resources>

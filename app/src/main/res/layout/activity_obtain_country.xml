@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center">
-    <EditText android:id="@+id/years_alive"
+    <EditText android:id="@+id/residence_country"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/years_alive"
-        android:inputType="number"
+        android:hint="@string/residence_country"
+        android:inputType="text"
         android:textAlignment="center"/>
 
     <LinearLayout
@@ -20,20 +20,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/info_save"
-            android:onClick="saveYears"/>
+            android:onClick="saveCountry"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/info_show"
-            android:onClick="showYears"/>
+            android:onClick="showCountry"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/info_submit"
-            android:onClick="submitYears"/>
+            android:onClick="submitCountry"/>
     </LinearLayout>
 
-    <TextView android:id="@+id/years_show"
+    <TextView android:id="@+id/country_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="You have not provided me with any information..."/>

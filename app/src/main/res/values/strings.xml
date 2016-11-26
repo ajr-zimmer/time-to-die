@@ -1,10 +1,12 @@
 <resources>
-    <string name="app_name">TimeToDie</string>
+    <string name="app_name">Time To Die</string>
+    <string name="start_button">Let\'s Begin!</string>
     <string name="years_alive">How many years have you been alive?</string>
     <string name="info_save">Save</string>
     <string name="info_show">Show Me</string>
     <string name="info_submit">Submit</string>
     <string name="residence_country">Where are you living?</string>
+    <string name="title_activity_login">Sign in</string>
 
 
 </resources>

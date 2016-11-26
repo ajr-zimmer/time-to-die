@@ -1,4 +1,4 @@
-package com.ttd.cain.timetodie;
+package com.ttd.cain.timetodie.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.ttd.cain.timetodie.R;
+
+public class UserInfoActivity extends AppCompatActivity {
     //public final static String EXTRA_MESSAGE = "com.ttd.cain.timetodie.MESSAGE";
 
     EditText yearsAlive;
@@ -19,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_user_info);
 
         yearsAlive = (EditText) findViewById(R.id.years_alive);
         yearsShown = (TextView) findViewById(R.id.years_show);

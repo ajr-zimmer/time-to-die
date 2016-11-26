@@ -1,4 +1,4 @@
-package com.ttd.cain.timetodie;
+package com.ttd.cain.timetodie.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.ttd.cain.timetodie.R;
 
 public class ObtainCountryActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "com.ttd.cain.timetodie.MESSAGE";
@@ -22,6 +24,7 @@ public class ObtainCountryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_obtain_country);
 
         residenceCountry = (EditText) findViewById(R.id.residence_country);
+        showCountry = (TextView) findViewById(R.id.country_show);
         showCountry = (TextView) findViewById(R.id.country_show);
 
     }

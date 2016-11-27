@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tutbody_array">
+        <item>Page 1 Body</item>
+        <item>Page 2 Body</item>
+        <item>Page 3 Body</item>
+        <item>Page 4 Body</item>
+    </string-array>
+
+    <string-array name="tuttitle_array">
+        <item>Page 1 Title</item>
+        <item>Page 2 Title</item>
+        <item>Page 3 Title</item>
+        <item>Page 4 Title</item>
+    </string-array>
+
+</resources>

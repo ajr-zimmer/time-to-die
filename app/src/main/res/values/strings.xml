@@ -7,6 +7,9 @@
     <string name="info_submit">Submit</string>
     <string name="residence_country">Where are you living?</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_user_info">UserInfoActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 
 </resources>

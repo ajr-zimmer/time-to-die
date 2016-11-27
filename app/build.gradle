@@ -10,6 +10,8 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        // Added this so that apps with API<21 can use vector graphics as image views
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {

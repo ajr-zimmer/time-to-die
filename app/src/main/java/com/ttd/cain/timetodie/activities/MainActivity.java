@@ -12,6 +12,9 @@ import com.ttd.cain.timetodie.R; // I suppose this is necessary
  * the goal is to be able to sign in with Google account to manage login **/
 public class MainActivity extends AppCompatActivity {
 
+    public static final String PREF_USER_FIRST_TIME = "user_first_time";
+    boolean isUserFirstTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

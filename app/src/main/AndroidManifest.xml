@@ -20,9 +20,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.UserInfoActivity" />
+        <activity android:name=".activities.InfoSaveActivity" />
         <activity android:name=".activities.DisplayMessageActivity" />
         <activity android:name=".activities.ObtainCountryActivity" />
+        <activity
+            android:name=".activities.UserInfoActivity"
+            android:label="@string/title_activity_user_info"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

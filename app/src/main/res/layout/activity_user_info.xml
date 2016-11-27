@@ -1,41 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
-    <EditText android:id="@+id/years_alive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/years_alive"
-        android:inputType="number"
-        android:textAlignment="center"/>
+    android:fitsSystemWindows="true"
+    android:background="@color/cyan"
+    tools:context="com.ttd.cain.timetodie.activities.UserInfoActivity">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/info_save"
-            android:onClick="saveYears"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/info_show"
-            android:onClick="showYears"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/info_submit"
-            android:onClick="submitYears"/>
-    </LinearLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="?attr/actionBarSize" />
 
-    <TextView android:id="@+id/years_show"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="You have not provided me with any information..."/>
-</LinearLayout>
+    <!-- divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="?attr/actionBarSize"
+        android:alpha="0.12"
+        android:background="@android:color/white" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin">
+
+        <Button
+            android:id="@+id/tutorial_btn_skip"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:text="Skip"
+            android:textColor="@android:color/white" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/tutorial_indicator_0"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginEnd="@dimen/activity_margin_half"
+                android:layout_marginRight="@dimen/activity_margin_half"
+                android:background="@drawable/indicator_unselected" />
+
+            <!-- Other three indicators here-->
+            <ImageView
+                android:id="@+id/tutorial_indicator_1"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginEnd="@dimen/activity_margin_half"
+                android:layout_marginRight="@dimen/activity_margin_half"
+                android:background="@drawable/indicator_unselected" />
+
+            <ImageView
+                android:id="@+id/tutorial_indicator_2"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginEnd="@dimen/activity_margin_half"
+                android:layout_marginRight="@dimen/activity_margin_half"
+                android:background="@drawable/indicator_unselected" />
+
+            <ImageView
+                android:id="@+id/tutorial_indicator_3"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:background="@drawable/indicator_unselected" />
+
+        </LinearLayout>
+        <!-- This overlaps the next button in the last slide -->
+        <Button
+            android:id="@+id/tutorial_btn_finish"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:text="Finish"
+            android:textColor="@android:color/white"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/tutorial_btn_next"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_chevron_right_24dp"
+            android:tint="@android:color/white" />
+
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>
 

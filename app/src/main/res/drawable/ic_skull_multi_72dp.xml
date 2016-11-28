@@ -26,12 +26,12 @@
 	c0.5,0,0.9-0.8,0.9-1.2c0.1,0.4,0.4,1.2,0.9,1.2c0.3,0,0.6-0.2,0.6-0.6C13.6,17.6,12.6,16,12,15.8z"/>
     <!-- Skull's left eye -->
     <path
-        android:fillColor="@color/indigo"
+        android:fillColor="@color/pink"
         android:pathData="M17.7,12.7c-0.5-1.3-1.8-2-3.3-1.5c-1.2,0.4-1.7,1.9-1.3,2.9
 	c0.5,1.6,2.1,2.3,3.8,1.7C17.7,15.6,18.4,14.7,17.7,12.7z"/>
     <!-- Skull's right eye -->
     <path
-        android:fillColor="@color/indigo"
+        android:fillColor="@color/pink"
         android:pathData="M6.3,12.7c0.5-1.3,1.8-2,3.3-1.5c1.2,0.4,1.7,1.9,1.3,2.9
 	c-0.5,1.6-2.1,2.3-3.8,1.7C6.3,15.6,5.6,14.7,6.3,12.7z"/>
 

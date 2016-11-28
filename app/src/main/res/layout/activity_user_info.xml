@@ -33,14 +33,15 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingStart="@dimen/activity_horizontal_margin">
 
-        <Button
-            android:id="@+id/tutorial_btn_skip"
+        <ImageButton
+            android:id="@+id/tutorial_btn_back"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
-            android:text="Skip"
-            android:textColor="@android:color/white" />
+            android:padding="@dimen/activity_horizontal_margin"
+            app:srcCompat="@drawable/ic_chevron_left_24dp"
+            android:tint="@android:color/white" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -82,15 +83,6 @@
 
         </LinearLayout>
         <!-- This overlaps the next button in the last slide -->
-        <Button
-            android:id="@+id/tutorial_btn_finish"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center"
-            android:text="Finish"
-            android:textColor="@android:color/white"
-            android:visibility="gone" />
 
         <ImageButton
             android:id="@+id/tutorial_btn_next"
@@ -99,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|center"
             android:padding="@dimen/activity_horizontal_margin"
-            android:src="@drawable/ic_chevron_right_24dp"
+            app:srcCompat="@drawable/ic_chevron_right_24dp"
             android:tint="@android:color/white" />
 
     </FrameLayout>

@@ -41,8 +41,7 @@ public class UserInfoActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    ImageButton mNextBtn;
-    Button mSkipBtn, mFinishBtn;
+    ImageButton mBackBtn, mNextBtn;
 
     ImageView zero, one, two, three;
     ImageView[] indicators;
@@ -63,9 +62,8 @@ public class UserInfoActivity extends AppCompatActivity {
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
+        mBackBtn = (ImageButton) findViewById(R.id.tutorial_btn_back);
         mNextBtn = (ImageButton) findViewById(R.id.tutorial_btn_next);
-        mSkipBtn = (Button) findViewById(R.id.tutorial_btn_skip);
-        mFinishBtn = (Button) findViewById(R.id.tutorial_btn_finish);
 
         zero = (ImageView) findViewById(R.id.tutorial_indicator_0);
         one = (ImageView) findViewById(R.id.tutorial_indicator_1);
@@ -83,10 +81,10 @@ public class UserInfoActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(page);
         updateIndicators(page);
 
-        final int colour1 = ContextCompat.getColor(this, R.color.blue);
-        final int colour2 = ContextCompat.getColor(this, R.color.green);
-        final int colour3 = ContextCompat.getColor(this, R.color.red);
-        final int colour4 = ContextCompat.getColor(this, R.color.purple);
+        final int colour1 = ContextCompat.getColor(this, R.color.pink);
+        final int colour2 = ContextCompat.getColor(this, R.color.purple);
+        final int colour3 = ContextCompat.getColor(this, R.color.deep_purple);
+        final int colour4 = ContextCompat.getColor(this, R.color.indigo);
 
         final int[] colourList = new int[]{colour1, colour2, colour3, colour4};
 
@@ -119,14 +117,23 @@ public class UserInfoActivity extends AppCompatActivity {
                         mViewPager.setBackgroundColor(colour4);
                         break;
                 }
-                // Overlay the Finish button on the last slide
+                // Show back chevron on any page but the first
+                mBackBtn.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
+                // Hide next chevron on last section
                 mNextBtn.setVisibility(position == 3 ? View.GONE : View.VISIBLE);
-                mFinishBtn.setVisibility(position == 3 ? View.VISIBLE : View.GONE);
             }
 
             @Override
             public void onPageScrollStateChanged(int state){
 
+            }
+        });
+
+        mBackBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                page--;
+                mViewPager.setCurrentItem(page, true);
             }
         });
 
@@ -137,8 +144,9 @@ public class UserInfoActivity extends AppCompatActivity {
                 mViewPager.setCurrentItem(page, true);
             }
         });
-
-        mSkipBtn.setOnClickListener(new View.OnClickListener(){
+        /**
+         * going ot save this for the Motivate button at the end
+        mStartBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 // Not sure if this should be placed before or after "finish()"
@@ -160,6 +168,7 @@ public class UserInfoActivity extends AppCompatActivity {
                 //Utils.saveSharedSetting(TutorialActivity.this, MainActivity.PREF_USER_FIRST_TIME, "true"); //debug purposes
             }
         });
+         **/
     }
 
     // Matches the grey circles to the page that the user is currently on

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="tutbody_array">
-        <item>Page 1 Body</item>
-        <item>Page 2 Body</item>
-        <item>Page 3 Body</item>
-        <item>Page 4 Body</item>
+        <item>Country</item>
+        <item>Age</item>
+        <item>Sex</item>
+        <item>Launch</item>
     </string-array>
 
     <string-array name="tuttitle_array">
-        <item>Page 1 Title</item>
-        <item>Page 2 Title</item>
-        <item>Page 3 Title</item>
-        <item>Page 4 Title</item>
+        <item>Where Are You Dying Right Now?</item>
+        <item>When Did You Begin Dying?</item>
+        <item>Which Flavour of Death?</item>
+        <item>Let\'s Go!</item>
     </string-array>
 
 </resources>

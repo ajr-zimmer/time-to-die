@@ -3,11 +3,8 @@ package com.ttd.cain.timetodie.activities;
 import android.animation.ArgbEvaluator;
 import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -86,10 +83,10 @@ public class UserInfoActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(page);
         updateIndicators(page);
 
-        final int colour1 = ContextCompat.getColor(this, R.color.amber);
-        final int colour2 = ContextCompat.getColor(this, R.color.orange);
+        final int colour1 = ContextCompat.getColor(this, R.color.blue);
+        final int colour2 = ContextCompat.getColor(this, R.color.green);
         final int colour3 = ContextCompat.getColor(this, R.color.red);
-        final int colour4 = ContextCompat.getColor(this, R.color.blue_grey);
+        final int colour4 = ContextCompat.getColor(this, R.color.purple);
 
         final int[] colourList = new int[]{colour1, colour2, colour3, colour4};
 
@@ -208,8 +205,8 @@ public class UserInfoActivity extends AppCompatActivity {
 
         // Images in each section
         ImageView img;
-        int[] bgs = new int[]{R.drawable.ic_skull_multi_24dp, R.drawable.ic_skull_multi_24dp,
-                R.drawable.ic_skull_multi_24dp, R.drawable.ic_skull_multi_24dp};
+        int[] bgs = new int[]{R.drawable.ic_globe_black_512dp, R.drawable.ic_hourglass_black_1000dp,
+                R.drawable.ic_people_black_512dp, R.drawable.ic_skull_multi_72dp};
 
         public PlaceholderFragment() {
         }

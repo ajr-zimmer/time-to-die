@@ -1,8 +1,12 @@
 package com.ttd.cain.timetodie.activities;
 
 import android.animation.ArgbEvaluator;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
+import android.support.annotation.StyleRes;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
@@ -18,15 +22,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.ttd.cain.timetodie.R;
 import com.ttd.cain.timetodie.utils.Utils;
+
+import java.util.Calendar;
+
+import static android.view.Gravity.CENTER;
 
 public class UserInfoActivity extends AppCompatActivity {
 
@@ -258,12 +269,25 @@ public class UserInfoActivity extends AppCompatActivity {
             txtHowto.setText(bodies[getArguments().getInt(ARG_SECTION_NUMBER)-1]);
 
             // Modify the input method based on the section
-            if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){ // 3 = sex
-                LinearLayout replaceableInput = (LinearLayout) rootView.findViewById(R.id.replaceable);
+            LinearLayout replaceableInput = (LinearLayout) rootView.findViewById(R.id.replaceable);
+            if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){ // 2 = DOB
+                Button dobBtn = new Button(getActivity());
+                dobBtn.setText("Your Date of Birth, Please");
+                dobBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DialogFragment newFragment = new DateOfBirthFragment();
+                        newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+                    }
+                });
+                replaceableInput.addView(dobBtn);
+
+            } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){ // 3 = sex
                 final RadioButton[] rb = new RadioButton[2];
                 String[] sexes = getResources().getStringArray(R.array.sexes);
                 RadioGroup rg = new RadioGroup(getActivity()); // not sure if getActivity is what I want
                 rg.setOrientation(RadioGroup.HORIZONTAL);
+                rg.setGravity(CENTER);
                 for(int i=0; i<2; i++){
                     rb[i] = new RadioButton(getActivity());
                     rb[i].setText(sexes[i]);
@@ -271,6 +295,10 @@ public class UserInfoActivity extends AppCompatActivity {
                     rg.addView(rb[i]);
                 }
                 replaceableInput.addView(rg);
+            } else { // final section
+                Button motivateBtn = new Button(getActivity());
+                motivateBtn.setText("MOTIVATE!");
+                replaceableInput.addView(motivateBtn);
             }
 
             return rootView;
@@ -313,6 +341,23 @@ public class UserInfoActivity extends AppCompatActivity {
                     return "SECTION 4";
             }
             return null;
+        }
+    }
+
+    public static class DateOfBirthFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState){
+            // use current date as default date
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            // the theme below is there to force the picker to be a spinner
+            return new DatePickerDialog(getActivity(), android.R.style.Theme_Holo_Dialog, this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day){
+
         }
     }
 }

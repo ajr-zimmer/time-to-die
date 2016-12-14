@@ -48,7 +48,7 @@
     <LinearLayout
         android:id="@+id/replaceable"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/toolbar_double_height"
         android:layout_gravity="bottom"
         android:gravity="center"
         android:orientation="vertical"

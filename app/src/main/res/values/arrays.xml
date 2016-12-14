@@ -10,8 +10,13 @@
     <string-array name="tuttitle_array">
         <item>Where Are You Dying Right Now?</item>
         <item>When Did You Begin Dying?</item>
-        <item>Which Flavour of Death?</item>
+        <item>Which Type of Body is Dying?</item>
         <item>Let\'s Go!</item>
+    </string-array>
+
+    <string-array name="sexes">
+        <item>Male</item>
+        <item>Female</item>
     </string-array>
 
 </resources>

@@ -20,6 +20,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.ttd.cain.timetodie.R;
@@ -179,7 +182,6 @@ public class UserInfoActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -250,9 +252,26 @@ public class UserInfoActivity extends AppCompatActivity {
             // Text bodies in each section
             TextView txtHowto;
             String[] bodies = getResources().getStringArray(R.array.tutbody_array);
+
             // Changes instructions based on section
             txtHowto = (TextView) rootView.findViewById(R.id.section_body);
             txtHowto.setText(bodies[getArguments().getInt(ARG_SECTION_NUMBER)-1]);
+
+            // Modify the input method based on the section
+            if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){ // 3 = sex
+                LinearLayout replaceableInput = (LinearLayout) rootView.findViewById(R.id.replaceable);
+                final RadioButton[] rb = new RadioButton[2];
+                String[] sexes = getResources().getStringArray(R.array.sexes);
+                RadioGroup rg = new RadioGroup(getActivity()); // not sure if getActivity is what I want
+                rg.setOrientation(RadioGroup.HORIZONTAL);
+                for(int i=0; i<2; i++){
+                    rb[i] = new RadioButton(getActivity());
+                    rb[i].setText(sexes[i]);
+                    rb[i].setId(i + 100); // not too sure about this
+                    rg.addView(rb[i]);
+                }
+                replaceableInput.addView(rg);
+            }
 
             return rootView;
         }

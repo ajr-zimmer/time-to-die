@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -270,7 +271,14 @@ public class UserInfoActivity extends AppCompatActivity {
 
             // Modify the input method based on the section
             LinearLayout replaceableInput = (LinearLayout) rootView.findViewById(R.id.replaceable);
-            if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){ // 2 = DOB
+            if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){ // Country
+                // i really want to use Google Places autocomplete: https://developers.google.com/places/android-api/autocomplete#get_place_predictions_programmatically
+                EditText country = new EditText(getActivity());
+                country.setText("Gimme your whereabouts!");
+                country.setGravity(CENTER);
+                replaceableInput.addView(country);
+
+            } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){ // 2 = DOB
                 Button dobBtn = new Button(getActivity());
                 dobBtn.setText("Your Date of Birth, Please");
                 dobBtn.setOnClickListener(new View.OnClickListener() {
@@ -295,9 +303,20 @@ public class UserInfoActivity extends AppCompatActivity {
                     rg.addView(rb[i]);
                 }
                 replaceableInput.addView(rg);
+
             } else { // final section
                 Button motivateBtn = new Button(getActivity());
                 motivateBtn.setText("MOTIVATE!");
+                motivateBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Save all of the previous section info into user prefs
+
+                        // Start activity to display info
+                        Intent intent = new Intent(getActivity(), DisplayMessageActivity.class);
+                        startActivity(intent);
+                    }
+                });
                 replaceableInput.addView(motivateBtn);
             }
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="tutbody_array">
-        <item>Country</item>
-        <item>Age</item>
-        <item>Sex</item>
-        <item>Launch</item>
+        <item>"Life is short, and shortly it will end; Death comes quickly and respects no one"</item>
+        <item>"If a person knows that he will die in a half hour, he certainly will not bother doing trivial, stupid, or, especially, bad things during this half hour."</item>
+        <item>"Death will come sooner than you expect"</item>
+        <item>"Remember Man that you are dust and unto dust you shall return"</item>
     </string-array>
 
     <string-array name="tuttitle_array">

@@ -14,6 +14,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,10 +36,19 @@ import com.ttd.cain.timetodie.R;
 import com.ttd.cain.timetodie.utils.Utils;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import static android.view.Gravity.CENTER;
 
 public class CaptureUserInfoActivity extends AppCompatActivity {
+
+    public static final String PREF_USER_COUNTRY = "user_country";
+    private static String userCountry = "Gimme your whereabouts!";
+    public static final String PREF_USER_DOB = "user_dob";
+    public static final String PREF_USER_SEX = "user_sex";
+    private static String userSex = "";
+
+
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -69,7 +80,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_info);
+        setContentView(R.layout.activity_capture_user_info);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -220,7 +231,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_user_info, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_capture_user_info, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
@@ -242,12 +253,29 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             txtHowto.setText(bodies[getArguments().getInt(ARG_SECTION_NUMBER)-1]);
 
             // Modify the input method based on the section
-            LinearLayout replaceableInput = (LinearLayout) rootView.findViewById(R.id.replaceable);
+            final LinearLayout replaceableInput = (LinearLayout) rootView.findViewById(R.id.replaceable);
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){ // Country
                 // i really want to use Google Places autocomplete: https://developers.google.com/places/android-api/autocomplete#get_place_predictions_programmatically
                 EditText country = new EditText(getActivity());
-                country.setText("Gimme your whereabouts!");
+                country.setText(userCountry); // updated to what user last typed in
                 country.setGravity(CENTER);
+                country.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        // uses variable in activity scope so that Motivate button can store final results in user prefs
+                        CaptureUserInfoActivity.userCountry = s.toString();
+                    }
+                });
                 replaceableInput.addView(country);
 
             } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){ // 2 = DOB
@@ -256,6 +284,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 dobBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        // Currently not saving user's DOB if they press the button again
                         DialogFragment newFragment = new DateOfBirthFragment();
                         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
                     }
@@ -274,6 +303,18 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                     rb[i].setId(i + 100); // not too sure about this
                     rg.addView(rb[i]);
                 }
+                rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        for(int i=0; i<group.getChildCount(); i++){
+                            RadioButton btn = (RadioButton) group.getChildAt(i);
+                            if(btn.getId() == checkedId){
+                                CaptureUserInfoActivity.userSex = btn.getText().toString();
+                                return;
+                            }
+                        }
+                    }
+                });
                 replaceableInput.addView(rg);
 
             } else { // final section
@@ -283,6 +324,12 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         // Save all of the previous section info into user prefs
+                        // Currently not validating if the country is valid
+                        Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_COUNTRY, CaptureUserInfoActivity.userCountry);
+                        // Obtain the user's sex selected by the radio buttons and store it
+                        Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_SEX, CaptureUserInfoActivity.userSex);
+
+                        // TODO: switch to tab if there is missing input
 
                         // Start activity to display info
                         Intent intent = new Intent(getActivity(), DisplayUserInfoActivity.class);
@@ -350,6 +397,9 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day){
+            // Save date of birth in user prefs
+            String dateofbirthString = Integer.toString(year) + "_" + Integer.toString(month) + "_" + Integer.toString(day);
+            Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_DOB, dateofbirthString);
 
         }
     }

@@ -4,7 +4,6 @@ import android.animation.ArgbEvaluator;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.support.annotation.StyleRes;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
@@ -22,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -30,7 +28,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.ttd.cain.timetodie.R;
@@ -40,7 +37,7 @@ import java.util.Calendar;
 
 import static android.view.Gravity.CENTER;
 
-public class UserInfoActivity extends AppCompatActivity {
+public class CaptureUserInfoActivity extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -65,7 +62,7 @@ public class UserInfoActivity extends AppCompatActivity {
 
     CoordinatorLayout mCoordinator;
 
-    static final String TAG = "UserInfoActivity";
+    static final String TAG = "CaptureUserInfoActivity";
 
     int page = 0; // to track page position
 
@@ -159,31 +156,6 @@ public class UserInfoActivity extends AppCompatActivity {
                 mViewPager.setCurrentItem(page, true);
             }
         });
-        /**
-         * going ot save this for the Motivate button at the end
-        mStartBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                // Not sure if this should be placed before or after "finish()"
-                Intent controlIntent = new Intent(UserInfoActivity.this, DisplayMessageActivity.class);
-                startActivity(controlIntent);
-                finish();
-            }
-        });
-
-        mFinishBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                // Not sure if this should be placed before or after "finish()"
-                Intent controlIntent = new Intent(UserInfoActivity.this, DisplayMessageActivity.class);
-                startActivity(controlIntent);
-                finish();
-                // Update 1st time preferences
-                Utils.saveSharedSetting(UserInfoActivity.this, MainActivity.PREF_USER_FIRST_TIME, "false");
-                //Utils.saveSharedSetting(TutorialActivity.this, MainActivity.PREF_USER_FIRST_TIME, "true"); //debug purposes
-            }
-        });
-         **/
     }
 
     // Matches the grey circles to the page that the user is currently on
@@ -313,8 +285,10 @@ public class UserInfoActivity extends AppCompatActivity {
                         // Save all of the previous section info into user prefs
 
                         // Start activity to display info
-                        Intent intent = new Intent(getActivity(), DisplayMessageActivity.class);
+                        Intent intent = new Intent(getActivity(), DisplayUserInfoActivity.class);
                         startActivity(intent);
+                        //Utils.saveSharedSetting(getActivity(), MainActivity.PREF_USER_FIRST_TIME, "false");
+                        //Utils.saveSharedSetting(TutorialActivity.this, MainActivity.PREF_USER_FIRST_TIME, "true"); //debug purposes
                     }
                 });
                 replaceableInput.addView(motivateBtn);

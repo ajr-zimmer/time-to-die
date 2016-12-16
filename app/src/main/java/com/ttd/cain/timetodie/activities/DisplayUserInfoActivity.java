@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.ttd.cain.timetodie.R;
 
-public class DisplayMessageActivity extends AppCompatActivity {
+public class DisplayUserInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

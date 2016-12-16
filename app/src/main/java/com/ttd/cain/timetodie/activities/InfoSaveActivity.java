@@ -49,7 +49,7 @@ public class InfoSaveActivity extends AppCompatActivity {
 
     /** Sends information in text field to the next activity for display */
     /*public void submitYears(View view){
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
+        Intent intent = new Intent(this, DisplayUserInfoActivity.class);
         EditText editText = (EditText) findViewById(R.id.years_alive);
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);

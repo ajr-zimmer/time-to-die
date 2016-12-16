@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/cyan"
-    tools:context="com.ttd.cain.timetodie.activities.UserInfoActivity">
+    tools:context="com.ttd.cain.timetodie.activities.CaptureUserInfoActivity">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/container"

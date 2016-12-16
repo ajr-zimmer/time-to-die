@@ -50,7 +50,7 @@ public class ObtainCountryActivity extends AppCompatActivity {
 
     /** Sends information in text field to the next activity for display */
     public void submitCountry(View view){
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
+        Intent intent = new Intent(this, DisplayUserInfoActivity.class);
         SharedPreferences sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         String age = sharedPref.getString("userage", "");
         //EditText countryText = (EditText) findViewById(R.id.residence_country);

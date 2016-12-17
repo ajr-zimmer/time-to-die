@@ -15,8 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_skull_multi_72dp"
-        android:layout_marginTop="83dp"
-        android:id="@+id/imageView"
+        android:layout_marginTop="70dp"
+        android:id="@+id/appLogo"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -26,10 +26,20 @@
         android:textSize="42dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView"
+        android:layout_below="@+id/appLogo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
-        android:id="@+id/textView" />
+        android:id="@+id/appTitleTxt" />
+
+    <TextView
+        android:text="@string/app_purpose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appTitleTxt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:textStyle="italic"
+        android:id="@+id/appPurposeTxt" />
 
     <Button
         android:text="@string/start_button"

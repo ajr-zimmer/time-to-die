@@ -82,7 +82,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture_user_info);
         // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
+        // Primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         mBackBtn = (ImageButton) findViewById(R.id.tutorial_btn_back);
@@ -186,9 +186,11 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        /**
+         * Handle action bar item clicks here. The action bar will
+         * automatically handle clicks on the Home/Up button, so long
+         * as you specify a parent activity in AndroidManifest.xml
+         */
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -255,7 +257,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             // Modify the input method based on the section
             final LinearLayout replaceableInput = (LinearLayout) rootView.findViewById(R.id.replaceable);
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){ // Country
-                // i really want to use Google Places autocomplete: https://developers.google.com/places/android-api/autocomplete#get_place_predictions_programmatically
+                // I really want to use Google Places autocomplete: https://developers.google.com/places/android-api/autocomplete#get_place_predictions_programmatically
                 EditText country = new EditText(getActivity());
                 country.setText(userCountry); // updated to what user last typed in
                 country.setGravity(CENTER);
@@ -272,7 +274,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        // uses variable in activity scope so that Motivate button can store final results in user prefs
+                        // Uses variable in activity scope so that Motivate button can store final results in user prefs
                         CaptureUserInfoActivity.userCountry = s.toString();
                     }
                 });
@@ -294,7 +296,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){ // 3 = sex
                 final RadioButton[] rb = new RadioButton[2];
                 String[] sexes = getResources().getStringArray(R.array.sexes);
-                RadioGroup rg = new RadioGroup(getActivity()); // not sure if getActivity is what I want
+                RadioGroup rg = new RadioGroup(getActivity());
                 rg.setOrientation(RadioGroup.HORIZONTAL);
                 rg.setGravity(CENTER);
                 for(int i=0; i<2; i++){
@@ -387,12 +389,12 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
     public static class DateOfBirthFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState){
-            // use current date as default date
+            // Use current date as default date
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
-            // the theme below is there to force the picker to be a spinner
+            // The theme below is there to force the picker to be a spinner
             return new DatePickerDialog(getActivity(), android.R.style.Theme_Holo_Dialog, this, year, month, day);
         }
 

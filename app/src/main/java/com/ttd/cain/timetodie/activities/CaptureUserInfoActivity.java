@@ -22,6 +22,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -43,7 +46,7 @@ import static android.view.Gravity.CENTER;
 public class CaptureUserInfoActivity extends AppCompatActivity {
 
     public static final String PREF_USER_COUNTRY = "user_country";
-    private static String userCountry = "Gimme your whereabouts!";
+    private static String userCountry = "";
     public static final String PREF_USER_DOB = "user_dob";
     public static final String PREF_USER_SEX = "user_sex";
     private static String userSex = "";
@@ -256,44 +259,55 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
             // Modify the input method based on the section
             final LinearLayout replaceableInput = (LinearLayout) rootView.findViewById(R.id.replaceable);
-            if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){ // Country
-                // I really want to use Google Places autocomplete: https://developers.google.com/places/android-api/autocomplete#get_place_predictions_programmatically
-                EditText country = new EditText(getActivity());
-                country.setText(userCountry); // updated to what user last typed in
-                country.setGravity(CENTER);
-                country.addTextChangedListener(new TextWatcher() {
+            if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){ // 1 = Country
+                AutoCompleteTextView countryInput = new AutoCompleteTextView(getActivity());
+                countryInput.setHint("Gimme your whereabouts!");
+                countryInput.setGravity(CENTER);
+                countryInput.setText(userCountry);
+                String[] countries = getResources().getStringArray(R.array.countries_array);
+                // Create the adapter and set it to the AutoCompleteTextView
+                final ArrayAdapter<String> adapter =
+                        new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, countries);
+                // this allows the text field to suggest from the array of countries
+                countryInput.setAdapter(adapter);
+                countryInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        // Uses variable in activity scope so that Motivate button can store final results in user prefs
-                        CaptureUserInfoActivity.userCountry = s.toString();
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        // Store whatever the user has selected from the dropdown
+                        userCountry = adapter.getItem(position);
                     }
                 });
-                replaceableInput.addView(country);
+                /**
+                 * Unset the user's country whenever the user types. Validation will then fail.
+                 * This is how we enforce selecting from the list.
+                 */
+                countryInput.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        userCountry = null;
+                    }
+                    @Override
+                    public void afterTextChanged(Editable s) { }
+                });
+                replaceableInput.addView(countryInput);
 
             } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){ // 2 = DOB
-                Button dobBtn = new Button(getActivity());
-                dobBtn.setText("Your Date of Birth, Please");
-                dobBtn.setOnClickListener(new View.OnClickListener() {
+                Button dateOfBirthButton = new Button(getActivity());
+                dateOfBirthButton.setText("Your Date of Birth, Please");
+                dateOfBirthButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // Currently not saving user's DOB if they press the button again
+                        // TODO: Enforce only valid dates
                         DialogFragment newFragment = new DateOfBirthFragment();
                         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
                     }
                 });
-                replaceableInput.addView(dobBtn);
+                replaceableInput.addView(dateOfBirthButton);
 
-            } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){ // 3 = sex
+            } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){ // 3 = Sex
                 final RadioButton[] rb = new RadioButton[2];
                 String[] sexes = getResources().getStringArray(R.array.sexes);
                 RadioGroup rg = new RadioGroup(getActivity());
@@ -319,14 +333,14 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 });
                 replaceableInput.addView(rg);
 
-            } else { // final section
+            } else { // Final section
                 Button motivateBtn = new Button(getActivity());
                 motivateBtn.setText("MOTIVATE!");
                 motivateBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // Save all of the previous section info into user prefs
-                        // Currently not validating if the country is valid
+                        // TODO: validate that the user has selected something
                         Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_COUNTRY, CaptureUserInfoActivity.userCountry);
                         // Obtain the user's sex selected by the radio buttons and store it
                         Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_SEX, CaptureUserInfoActivity.userSex);

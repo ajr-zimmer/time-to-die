@@ -80,6 +80,20 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
     int page = 0; // to track page position
 
+    public static String getUserCountry() {
+        return userCountry;
+    }
+    public static void setUserCountry(String country){
+        userCountry = country;
+    }
+
+    public static String getUserSex(){
+        return userSex;
+    }
+    public static void setUserSex(String sex){
+        userSex = sex;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -219,8 +233,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
         int[] bgs = new int[]{R.drawable.ic_globe_black_512dp, R.drawable.ic_hourglass_black_1000dp,
                 R.drawable.ic_people_black_512dp, R.drawable.ic_skull_multi_72dp};
 
-        public PlaceholderFragment() {
-        }
+        public PlaceholderFragment() { }
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -263,7 +276,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 AutoCompleteTextView countryInput = new AutoCompleteTextView(getActivity());
                 countryInput.setHint("Gimme your whereabouts!");
                 countryInput.setGravity(CENTER);
-                countryInput.setText(userCountry);
+                countryInput.setText(CaptureUserInfoActivity.getUserCountry());
                 String[] countries = getResources().getStringArray(R.array.countries_array);
                 // Create the adapter and set it to the AutoCompleteTextView
                 final ArrayAdapter<String> adapter =
@@ -274,7 +287,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         // Store whatever the user has selected from the dropdown
-                        userCountry = adapter.getItem(position);
+                        CaptureUserInfoActivity.setUserCountry(adapter.getItem(position));
                     }
                 });
                 /**
@@ -286,7 +299,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        userCountry = null;
+                        CaptureUserInfoActivity.setUserCountry(null);
                     }
                     @Override
                     public void afterTextChanged(Editable s) { }
@@ -325,7 +338,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                         for(int i=0; i<group.getChildCount(); i++){
                             RadioButton btn = (RadioButton) group.getChildAt(i);
                             if(btn.getId() == checkedId){
-                                CaptureUserInfoActivity.userSex = btn.getText().toString();
+                                CaptureUserInfoActivity.setUserSex(btn.getText().toString());
                                 return;
                             }
                         }
@@ -341,9 +354,9 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         // Save all of the previous section info into user prefs
                         // TODO: validate that the user has selected something
-                        Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_COUNTRY, CaptureUserInfoActivity.userCountry);
+                        Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_COUNTRY, CaptureUserInfoActivity.getUserCountry());
                         // Obtain the user's sex selected by the radio buttons and store it
-                        Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_SEX, CaptureUserInfoActivity.userSex);
+                        Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_SEX, CaptureUserInfoActivity.getUserSex());
 
                         // TODO: switch to tab if there is missing input
 

@@ -416,7 +416,13 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
             // The theme below is there to force the picker to be a spinner
-            return new DatePickerDialog(getActivity(), android.R.style.Theme_Holo_Dialog, this, year, month, day);
+            DatePickerDialog dialog = new DatePickerDialog(getActivity(), android.R.style.Theme_Holo_Dialog, this, year, month, day);
+            // Restrict what DOB's the user can enter
+            dialog.getDatePicker().setMaxDate(new Date().getTime());
+            final Calendar old = Calendar.getInstance();
+            old.set(1890,0,1); // Remember that months are zero-indexed
+            dialog.getDatePicker().setMinDate(old.getTimeInMillis());
+            return dialog;
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day){

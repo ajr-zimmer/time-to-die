@@ -3,6 +3,7 @@ package com.ttd.cain.timetodie.activities;
 import android.animation.ArgbEvaluator;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.DialogFragment;
@@ -22,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -51,8 +53,6 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
     public static final String PREF_USER_SEX = "user_sex";
     private static String userSex = "";
 
-
-
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -80,19 +80,11 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
     int page = 0; // to track page position
 
-    public static String getUserCountry() {
-        return userCountry;
-    }
-    public static void setUserCountry(String country){
-        userCountry = country;
-    }
+    public static String getUserCountry(){ return userCountry; }
+    public static void setUserCountry(String country){ userCountry = country; }
 
-    public static String getUserSex(){
-        return userSex;
-    }
-    public static void setUserSex(String sex){
-        userSex = sex;
-    }
+    public static String getUserSex(){ return userSex; }
+    public static void setUserSex(String sex){ userSex = sex; }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -288,6 +280,8 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         // Store whatever the user has selected from the dropdown
                         CaptureUserInfoActivity.setUserCountry(adapter.getItem(position));
+                        InputMethodManager input = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        input.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
                     }
                 });
                 /**

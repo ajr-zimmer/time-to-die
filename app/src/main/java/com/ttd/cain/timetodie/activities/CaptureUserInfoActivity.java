@@ -50,6 +50,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
     public static final String PREF_USER_COUNTRY = "user_country";
     private static String userCountry = "";
     public static final String PREF_USER_DOB = "user_dob";
+    private static String userDOB = "";
     public static final String PREF_USER_SEX = "user_sex";
     private static String userSex = "";
 
@@ -82,6 +83,9 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
     public static String getUserCountry(){ return userCountry; }
     public static void setUserCountry(String country){ userCountry = country; }
+
+    public static String getUserDOB(){ return userDOB; }
+    public static void setUserDOB(String dob){ userDOB = dob;}
 
     public static String getUserSex(){ return userSex; }
     public static void setUserSex(String sex){ userSex = sex; }
@@ -412,6 +416,10 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState){
             // Use current date as default date
             final Calendar c = Calendar.getInstance();
+            if(!CaptureUserInfoActivity.getUserDOB().isEmpty()){ // date has been set previously
+                String[] dates = CaptureUserInfoActivity.getUserDOB().split("_");
+                c.set(Integer.parseInt(dates[0]), Integer.parseInt(dates[1]), Integer.parseInt(dates[2]));
+            }
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
@@ -420,6 +428,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             // Restrict what DOB's the user can enter
             dialog.getDatePicker().setMaxDate(new Date().getTime());
             final Calendar old = Calendar.getInstance();
+            // TODO: make this date a rolling window of 125 years
             old.set(1890,0,1); // Remember that months are zero-indexed
             dialog.getDatePicker().setMinDate(old.getTimeInMillis());
             return dialog;
@@ -427,8 +436,8 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
         public void onDateSet(DatePicker view, int year, int month, int day){
             // Save date of birth in user prefs
-            String dateofbirthString = Integer.toString(year) + "_" + Integer.toString(month) + "_" + Integer.toString(day);
-            Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_DOB, dateofbirthString);
+            CaptureUserInfoActivity.setUserDOB(Integer.toString(year) + "_" + Integer.toString(month) + "_" + Integer.toString(day));
+            Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_DOB, CaptureUserInfoActivity.getUserDOB());
 
         }
     }

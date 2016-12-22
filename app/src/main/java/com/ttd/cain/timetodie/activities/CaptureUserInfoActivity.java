@@ -51,8 +51,11 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
     public static final String PREF_USER_COUNTRY = "user_country";
     private static String userCountry = "";
+
     public static final String PREF_USER_DOB = "user_dob";
     private static String userDOB = "";
+    private static Button dobButton;
+
     public static final String PREF_USER_SEX = "user_sex";
     private static String userSex = "";
 
@@ -310,10 +313,6 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
                 /** User has swiped to the Date of Birth section*/
             } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
-                final TextView displayDateSelected = new TextView(getActivity());
-                displayDateSelected.setText("Date of Birth: " + CaptureUserInfoActivity.getUserDOB());
-                displayDateSelected.setGravity(CENTER);
-                replaceableInput.addView(displayDateSelected);
                 Button dateOfBirthButton = new Button(getActivity());
                 dateOfBirthButton.setText("Your Date of Birth, Please");
                 dateOfBirthButton.setOnClickListener(new View.OnClickListener() {
@@ -327,6 +326,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                     }
                 });
                 replaceableInput.addView(dateOfBirthButton);
+                dobButton = dateOfBirthButton;
 
                 /** User has swiped to the Sex section*/
             } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){
@@ -381,6 +381,13 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
             return rootView;
         }
+
+
+        public void setDisplayTxt(){
+            System.out.println("well shit");
+
+        }
+
     }
 
     /**
@@ -459,9 +466,10 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             // Save date of birth in user prefs
             CaptureUserInfoActivity.setUserDOB(Integer.toString(year) + "_" + Integer.toString(month) + "_" + Integer.toString(day));
             Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_DOB, CaptureUserInfoActivity.getUserDOB());
-            // Set display textview to date selected by user
-            //int displayId = getArguments().getInt("displayID");
-            //displayTxt.setText(CaptureUserInfoActivity.getUserDOB());
+            // Set text of button to the date selected by the user
+            dobButton.setText("Date of Birth: "+ CaptureUserInfoActivity.getUserDOB());
         }
     }
+
+
 }

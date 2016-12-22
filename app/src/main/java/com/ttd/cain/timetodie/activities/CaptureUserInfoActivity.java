@@ -40,6 +40,8 @@ import android.widget.TextView;
 import com.ttd.cain.timetodie.R;
 import com.ttd.cain.timetodie.utils.Utils;
 
+import org.w3c.dom.Text;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -268,7 +270,9 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
             // Modify the input method based on the section
             final LinearLayout replaceableInput = (LinearLayout) rootView.findViewById(R.id.replaceable);
-            if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){ // 1 = Country
+
+            /** User has swiped to the Country section*/
+            if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
                 AutoCompleteTextView countryInput = new AutoCompleteTextView(getActivity());
                 countryInput.setHint("Gimme your whereabouts!");
                 countryInput.setGravity(CENTER);
@@ -304,21 +308,28 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 });
                 replaceableInput.addView(countryInput);
 
-            } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){ // 2 = DOB
+                /** User has swiped to the Date of Birth section*/
+            } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
+                final TextView displayDateSelected = new TextView(getActivity());
+                displayDateSelected.setText("Date of Birth: " + CaptureUserInfoActivity.getUserDOB());
+                displayDateSelected.setGravity(CENTER);
+                replaceableInput.addView(displayDateSelected);
                 Button dateOfBirthButton = new Button(getActivity());
                 dateOfBirthButton.setText("Your Date of Birth, Please");
                 dateOfBirthButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // Currently not saving user's DOB if they press the button again
-                        // TODO: Enforce only valid dates
-                        DialogFragment newFragment = new DateOfBirthFragment();
+                        //DialogFragment newFragment = new DateOfBirthFragment();
+                        // Create new fragment, passing the id of the display textview
+                        DialogFragment newFragment = DateOfBirthFragment.newInstance();
                         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
                     }
                 });
                 replaceableInput.addView(dateOfBirthButton);
 
-            } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){ // 3 = Sex
+                /** User has swiped to the Sex section*/
+            } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){
                 final RadioButton[] rb = new RadioButton[2];
                 String[] sexes = getResources().getStringArray(R.array.sexes);
                 RadioGroup rg = new RadioGroup(getActivity());
@@ -327,7 +338,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 for(int i=0; i<2; i++){
                     rb[i] = new RadioButton(getActivity());
                     rb[i].setText(sexes[i]);
-                    rb[i].setId(i + 100); // not too sure about this
+                    rb[i].setId(i + 100); // need to be careful to avoid id collisions
                     rg.addView(rb[i]);
                 }
                 rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -358,7 +369,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
                         // TODO: switch to tab if there is missing input
 
-                        // Start activity to display info
+                        // Start activity to display captured info
                         Intent intent = new Intent(getActivity(), DisplayUserInfoActivity.class);
                         startActivity(intent);
                         //Utils.saveSharedSetting(getActivity(), MainActivity.PREF_USER_FIRST_TIME, "false");
@@ -412,6 +423,16 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
     }
 
     public static class DateOfBirthFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+
+        public static DateOfBirthFragment newInstance(){
+            DateOfBirthFragment fragment = new DateOfBirthFragment();
+            //Bundle args = new Bundle();
+            //args.putInt("displayID", displayID);
+            //fragment.setArguments(args);
+            return fragment;
+
+        }
+
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState){
             // Use current date as default date
@@ -438,7 +459,9 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             // Save date of birth in user prefs
             CaptureUserInfoActivity.setUserDOB(Integer.toString(year) + "_" + Integer.toString(month) + "_" + Integer.toString(day));
             Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_DOB, CaptureUserInfoActivity.getUserDOB());
-
+            // Set display textview to date selected by user
+            //int displayId = getArguments().getInt("displayID");
+            //displayTxt.setText(CaptureUserInfoActivity.getUserDOB());
         }
     }
 }

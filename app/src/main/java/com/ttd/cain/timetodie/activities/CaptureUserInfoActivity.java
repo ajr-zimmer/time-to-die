@@ -346,7 +346,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                         for(int i=0; i<group.getChildCount(); i++){
                             RadioButton btn = (RadioButton) group.getChildAt(i);
                             if(btn.getId() == checkedId){
-                                CaptureUserInfoActivity.setUserSex(btn.getText().toString());
+                                CaptureUserInfoActivity.setUserSex(btn.getText().toString().toLowerCase());
                                 return;
                             }
                         }
@@ -436,7 +436,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             // Use current date as default date
             final Calendar c = Calendar.getInstance();
             if(!CaptureUserInfoActivity.getUserDOB().isEmpty()){ // date has been set previously
-                String[] dates = CaptureUserInfoActivity.getUserDOB().split("_");
+                String[] dates = CaptureUserInfoActivity.getUserDOB().split("-");
                 c.set(Integer.parseInt(dates[0]), Integer.parseInt(dates[1]), Integer.parseInt(dates[2]));
             }
             int year = c.get(Calendar.YEAR);
@@ -455,7 +455,8 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
         public void onDateSet(DatePicker view, int year, int month, int day){
             // Save date of birth in user prefs
-            CaptureUserInfoActivity.setUserDOB(Integer.toString(year) + "_" + Integer.toString(month) + "_" + Integer.toString(day));
+            // TODO: figure out how to store leading zeros
+            CaptureUserInfoActivity.setUserDOB(Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day));
             Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_DOB, CaptureUserInfoActivity.getUserDOB());
             // Set text of button to the date selected by the user
             dobButton.setText("Date of Birth: "+ CaptureUserInfoActivity.getUserDOB());

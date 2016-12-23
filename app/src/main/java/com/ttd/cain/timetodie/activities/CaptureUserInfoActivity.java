@@ -29,7 +29,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,8 +38,6 @@ import android.widget.TextView;
 
 import com.ttd.cain.timetodie.R;
 import com.ttd.cain.timetodie.utils.Utils;
-
-import org.w3c.dom.Text;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -82,9 +79,8 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
     CoordinatorLayout mCoordinator;
 
-    static final String TAG = "CaptureUserInfoActivity";
-
     int page = 0; // to track page position
+
 
     public static String getUserCountry(){ return userCountry; }
     public static void setUserCountry(String country){ userCountry = country; }
@@ -187,6 +183,8 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
         });
     }
 
+
+
     // Matches the grey circles to the page that the user is currently on
     void updateIndicators(int position){
         for(int i=0; i<indicators.length; i++){
@@ -280,10 +278,13 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 countryInput.setHint("Gimme your whereabouts!");
                 countryInput.setGravity(CENTER);
                 countryInput.setText(CaptureUserInfoActivity.getUserCountry());
-                String[] countries = getResources().getStringArray(R.array.countries_array);
+
+                //String[] countries = getResources().getStringArray(R.array.countries_array);
                 // Create the adapter and set it to the AutoCompleteTextView
                 final ArrayAdapter<String> adapter =
-                        new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, countries);
+                        new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, MainActivity.getCountryList());
+                        //new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, countries);
+
                 // this allows the text field to suggest from the array of countries
                 countryInput.setAdapter(adapter);
                 countryInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -318,8 +319,6 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 dateOfBirthButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Currently not saving user's DOB if they press the button again
-                        //DialogFragment newFragment = new DateOfBirthFragment();
                         // Create new fragment, passing the id of the display textview
                         DialogFragment newFragment = DateOfBirthFragment.newInstance();
                         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
@@ -381,13 +380,6 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
             return rootView;
         }
-
-
-        public void setDisplayTxt(){
-            System.out.println("well shit");
-
-        }
-
     }
 
     /**
@@ -437,7 +429,6 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             //args.putInt("displayID", displayID);
             //fragment.setArguments(args);
             return fragment;
-
         }
 
         @Override

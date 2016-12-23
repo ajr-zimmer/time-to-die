@@ -22,4 +22,5 @@ public class Utils {
         editor.putString(settingName, settingValue);
         editor.apply();
     }
+
 }

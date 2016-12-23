@@ -5,6 +5,8 @@
     android:viewportWidth="512"
     android:viewportHeight="512">
 
+    <!-- Found here: http://developer.buildsci.us/archives/interface/EEB%20Hub%20Simulation%20Platform%20Tools%20DEC2013_files/iconmonstr-user-14-icon.svg-->
+
     <path
         android:fillColor="#000000"
         android:pathData="M461.968,359.358h-79.937c-0.004-86.998-43.49-45.648-43.49-121.885c0-27.52,18.017-42.455,41.15-42.455

@@ -4,6 +4,7 @@
     android:height="1000dp"
     android:viewportWidth="1000"
     android:viewportHeight="1000">
+    <!-- Found here: https://www.onlinewebfonts.com/icon/1582 -->
 
     <path
         android:fillColor="#FF000000"

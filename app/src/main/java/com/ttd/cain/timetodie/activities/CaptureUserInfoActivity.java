@@ -155,7 +155,8 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                         break;
                 }
                 // Show back chevron on any page but the first
-                mBackBtn.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
+                // This is because I have explicitly set the back btn to be invisible on startup
+                mBackBtn.setVisibility(position != 0 ? View.VISIBLE : View.GONE);
                 // Hide next chevron on last section
                 mNextBtn.setVisibility(position == 3 ? View.GONE : View.VISIBLE);
             }
@@ -275,7 +276,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             /** User has swiped to the Country section*/
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
                 AutoCompleteTextView countryInput = new AutoCompleteTextView(getActivity());
-                countryInput.setHint("Gimme your whereabouts!");
+                countryInput.setHint("Where are you living?");
                 countryInput.setGravity(CENTER);
                 countryInput.setText(CaptureUserInfoActivity.getUserCountry());
 
@@ -315,7 +316,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 /** User has swiped to the Date of Birth section*/
             } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
                 Button dateOfBirthButton = new Button(getActivity());
-                dateOfBirthButton.setText("Your Date of Birth, Please");
+                dateOfBirthButton.setText("Your Date of Birth, Please"); // TODO: need conditional to display date previously stored if moving back from post-motivate screen
                 dateOfBirthButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- "Memento mori—remember death! These are important words. If we kept in mind that we will soon inevitably die, our lives would be completely different. If a person knows that he will die in a half hour, he certainly will not bother doing trivial, stupid, or, especially, bad things during this half hour. Perhaps you have half a century before you die—what makes this any different from a half hour?" - Leo Tolstoy-->
     <string-array name="tutbody_array">
-        <item>"Life is short, and shortly it will end; Death comes quickly and respects no one"</item>
-        <item>"If a person knows that he will die in a half hour, he certainly will not bother doing trivial, stupid, or, especially, bad things during this half hour."</item>
-        <item>"Death will come sooner than you expect"</item>
-        <item>"Remember Man that you are dust and unto dust you shall return"</item>
+        <item>To live is the rarest thing in the world. Most people exist, that is all. - Oscar Wilde</item>
+        <item>The proper function of man is to live, not to exist. I shall not waste my days in trying to prolong them. I shall use my time. - Jack London</item>
+        <item>Time is all you have. And you may find one day that you have less than you think. - Randy Pausch</item>
+        <item>Time is a precious thing. Never waste it. - Gene Wilder</item>
     </string-array>
 
     <string-array name="tuttitle_array">
-        <item>Where Are You Dying Right Now?</item>
-        <item>When Did You Begin Dying?</item>
-        <item>Which Type of Body is Dying?</item>
+        <item>Where Are You Enjoying Life Right Now?</item>
+        <item>When Did You Begin Existing?</item>
+        <item>Which Type of Body Are You Living In?</item>
         <item>Let\'s Go!</item>
     </string-array>
 
@@ -18,7 +19,7 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
-
+<!-- This is for debug pruposes, currently grabbing country list from http://api.population.io/ -->
     <string-array name="countries_array">
         <item>Afghanistan</item>
         <item>Albania</item>

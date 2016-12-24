@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void beginInfo(View view){
+        // TODO; stop user from continuing if there is not internet connection
         isUserFirstTime = Boolean.valueOf(Utils.readSharedSetting(MainActivity.this, PREF_USER_FIRST_TIME, "true"));
         if(isUserFirstTime){
             // Start the tabbed CaptureUserInfoActivity that captures user input

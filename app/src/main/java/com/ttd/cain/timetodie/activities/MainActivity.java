@@ -2,6 +2,8 @@ package com.ttd.cain.timetodie.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +13,6 @@ import android.widget.Toast;
 
 import com.ttd.cain.timetodie.R; // I suppose this is necessary
 import com.ttd.cain.timetodie.utils.HttpHandler;
-import com.ttd.cain.timetodie.utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,9 +42,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         countryList = new ArrayList<String>();
-
-        // TODO: encourage users to be connected to internet in order for counter to work properly
-        new GetCountries().execute();
     }
 
     /**
@@ -129,16 +127,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void beginInfo(View view){
-        // TODO: stop user from continuing if there is not internet connection
-        isUserFirstTime = Boolean.valueOf(Utils.readSharedSetting(MainActivity.this, PREF_USER_FIRST_TIME, "true"));
-        if(isUserFirstTime){
+        ConnectivityManager cManager = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = cManager.getActiveNetworkInfo();
+        // Prevent user from continuing if there is no network connection
+        boolean isConnected = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+        if(isConnected){
+            new GetCountries().execute();
             // Start the tabbed CaptureUserInfoActivity that captures user input
             Intent initialUserInfoCapture = new Intent(this, CaptureUserInfoActivity.class);
             startActivity(initialUserInfoCapture);
         } else {
-            // Skip the tabbed CaptureUserInfoActivity and go to the main countdown view
-            Intent mainCountdownView = new Intent(this, DisplayUserInfoActivity.class);
-            startActivity(mainCountdownView);
+            // Notify the user that they need to have a connection
+            Toast.makeText(this, "Network unavailable, please connect to a network", Toast.LENGTH_LONG).show();
         }
     }
 }

@@ -373,8 +373,6 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                         // Start activity to display captured info
                         Intent intent = new Intent(getActivity(), DisplayUserInfoActivity.class);
                         startActivity(intent);
-                        //Utils.saveSharedSetting(getActivity(), MainActivity.PREF_USER_FIRST_TIME, "false");
-                        //Utils.saveSharedSetting(TutorialActivity.this, MainActivity.PREF_USER_FIRST_TIME, "true"); //debug purposes
                     }
                 });
                 replaceableInput.addView(motivateBtn);

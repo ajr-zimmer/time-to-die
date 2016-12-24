@@ -119,10 +119,10 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(page);
         updateIndicators(page);
 
-        final int colour1 = ContextCompat.getColor(this, R.color.pink);
+        final int colour1 = ContextCompat.getColor(this, R.color.hot_pink);
         final int colour2 = ContextCompat.getColor(this, R.color.purple);
         final int colour3 = ContextCompat.getColor(this, R.color.deep_purple);
-        final int colour4 = ContextCompat.getColor(this, R.color.indigo);
+        final int colour4 = ContextCompat.getColor(this, R.color.black);
 
         final int[] colourList = new int[]{colour1, colour2, colour3, colour4};
 

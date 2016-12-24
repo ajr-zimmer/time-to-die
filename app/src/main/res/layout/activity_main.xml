@@ -24,6 +24,7 @@
         android:text="@string/app_name"
         android:textStyle="bold"
         android:textSize="50dp"
+        android:textColor="@color/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/appLogo"
@@ -35,6 +36,7 @@
         android:text="@string/app_purpose"
         android:textStyle="italic"
         android:textSize="16dp"
+        android:textColor="@color/colorAccent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/appTitleTxt"
@@ -45,6 +47,7 @@
     <Button
         android:text="@string/start_button"
         android:textSize="16dp"
+        android:textColor="@color/colorPrimaryDark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button"

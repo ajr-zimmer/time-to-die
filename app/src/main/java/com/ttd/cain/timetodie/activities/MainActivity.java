@@ -26,9 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     static final String TAG = MainActivity.class.getSimpleName();
     // URL to get country list
-    private static String countryURL = "http://api.population.io:80/1.0/countries";
     private static ArrayList<String> countryList;
-    private ProgressDialog pDialog;
+    //private ProgressDialog pDialog;
 
     // TODO: Skip capturing user info if we have already collected it
     public static final String PREF_USER_FIRST_TIME = "user_first_time";
@@ -67,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
-
+            String countryURL = "http://api.population.io:80/1.0/countries";
             // Making a request to url and getting response
             String jsonStr = sh.makeServiceCall(countryURL);
 
@@ -130,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void beginInfo(View view){
-        // TODO; stop user from continuing if there is not internet connection
+        // TODO: stop user from continuing if there is not internet connection
         isUserFirstTime = Boolean.valueOf(Utils.readSharedSetting(MainActivity.this, PREF_USER_FIRST_TIME, "true"));
         if(isUserFirstTime){
             // Start the tabbed CaptureUserInfoActivity that captures user input

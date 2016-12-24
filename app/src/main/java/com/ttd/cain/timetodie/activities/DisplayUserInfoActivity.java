@@ -45,7 +45,7 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
         dateOfBirth = Utils.readSharedSetting(DisplayUserInfoActivity.this, CaptureUserInfoActivity.PREF_USER_DOB, "Never Born");
         sex = Utils.readSharedSetting(DisplayUserInfoActivity.this, CaptureUserInfoActivity.PREF_USER_SEX, "No Sex");
 
-        String stats = "Place of Living: "+ country +"\n"+ "Start of Life: " + dateOfBirth +"\n"+ "Body Living: "+ sex;
+        String stats = "Stats:\nPlace of Living = "+ country +"\n"+ "Start of Life = " + dateOfBirth +"\n"+ "Body Living = "+ sex;
         TextView userstats = (TextView) findViewById(R.id.userstats);
         userstats.setText(stats);
 
@@ -191,7 +191,8 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
         public void onTick(long millisUntilFinished){
             long millis = millisUntilFinished;
 
-            String hms = String.format("%02d:%02d:%02d", java.util.concurrent.TimeUnit.MILLISECONDS.toHours(millis),
+            String hms = String.format("%02d Days\n%02d Hours\n%02d Minutes\n%02d Seconds", java.util.concurrent.TimeUnit.MILLISECONDS.toDays(millis),
+                    java.util.concurrent.TimeUnit.MILLISECONDS.toHours(millis) - java.util.concurrent.TimeUnit.DAYS.toHours(java.util.concurrent.TimeUnit.MILLISECONDS.toDays(millis)),
                     java.util.concurrent.TimeUnit.MILLISECONDS.toMinutes(millis) - java.util.concurrent.TimeUnit.HOURS.toMinutes(java.util.concurrent.TimeUnit.MILLISECONDS.toHours(millis)),
                     java.util.concurrent.TimeUnit.MILLISECONDS.toSeconds(millis) - java.util.concurrent.TimeUnit.MINUTES.toSeconds(java.util.concurrent.TimeUnit.MILLISECONDS.toMinutes(millis)));
             //System.out.println(hms);

@@ -10,4 +10,22 @@
     tools:context="com.ttd.cain.timetodie.activities.DisplayUserInfoActivity"
     android:id="@+id/activity_display_message">
 
+    <TextView
+        android:id="@+id/userstats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:textSize="21dp"
+        android:text="Stats"/>
+
+    <TextView
+        android:id="@+id/countdowntimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="21dp"
+        android:text="Countdown"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
                                     .show();
                         }
                     });
-
                 }
             } else {
                 Log.e(TAG, "Couldn't get json from server.");
@@ -106,9 +105,7 @@ public class MainActivity extends AppCompatActivity {
                                 .show();
                     }
                 });
-
             }
-
             return null;
         }
 
@@ -121,12 +118,12 @@ public class MainActivity extends AppCompatActivity {
             /**
              * Updating parsed JSON data into list
              * */
-
         }
 
     }
 
     public void beginInfo(View view){
+        // TODO: make some sort of method for making sure a connection persists throughout the info tabs
         ConnectivityManager cManager = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = cManager.getActiveNetworkInfo();
         // Prevent user from continuing if there is no network connection

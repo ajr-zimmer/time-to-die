@@ -39,6 +39,7 @@ import android.widget.TextView;
 import com.ttd.cain.timetodie.R;
 import com.ttd.cain.timetodie.utils.Utils;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -51,7 +52,8 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
     public static final String PREF_USER_DOB = "user_dob";
     private static String userDOB = "";
-    private static Button dobButton;
+    // Do not place Android context classes in static fields
+    private static Button dobButton; // not the best way, could cause a memory leak
 
     public static final String PREF_USER_SEX = "user_sex";
     private static String userSex = "";
@@ -64,7 +66,6 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -74,8 +75,6 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
     ImageView zero, one, two, three;
     ImageView[] indicators;
-
-    int lastLeftValue = 0;
 
     CoordinatorLayout mCoordinator;
 
@@ -87,6 +86,8 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
     public static String getUserDOB(){ return userDOB; }
     public static void setUserDOB(String dob){ userDOB = dob;}
+    public static Button getDobButton(){ return dobButton; }
+    public static void setDobButton(Button btn){ dobButton = btn;}
 
     public static String getUserSex(){ return userSex; }
     public static void setUserSex(String sex){ userSex = sex; }
@@ -97,7 +98,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_capture_user_info);
         // Create the adapter that will return a fragment for each of the three
         // Primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         mBackBtn = (ImageButton) findViewById(R.id.tutorial_btn_back);
         mNextBtn = (ImageButton) findViewById(R.id.tutorial_btn_next);
@@ -316,17 +317,17 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 /** User has swiped to the Date of Birth section*/
             } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
                 Button dateOfBirthButton = new Button(getActivity());
-                dateOfBirthButton.setText("Your Date of Birth, Please"); // TODO: need conditional to display date previously stored if moving back from post-motivate screen
+                dateOfBirthButton.setText(R.string.dob_btn_text); // TODO: NiceToHave- need conditional to display date previously stored if moving back from post-motivate screen
                 dateOfBirthButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // Create new fragment, passing the id of the display textview
-                        DialogFragment newFragment = DateOfBirthFragment.newInstance();
+                        DialogFragment newFragment = new DateOfBirthFragment();
                         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
                     }
                 });
                 replaceableInput.addView(dateOfBirthButton);
-                dobButton = dateOfBirthButton;
+                CaptureUserInfoActivity.setDobButton(dateOfBirthButton);
 
                 /** User has swiped to the Sex section*/
             } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){
@@ -357,7 +358,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
             } else { // Final section
                 Button motivateBtn = new Button(getActivity());
-                motivateBtn.setText("MOTIVATE!");
+                motivateBtn.setText(R.string.motivate_btn_text);
                 motivateBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -424,14 +425,6 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
     public static class DateOfBirthFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-        public static DateOfBirthFragment newInstance(){
-            DateOfBirthFragment fragment = new DateOfBirthFragment();
-            //Bundle args = new Bundle();
-            //args.putInt("displayID", displayID);
-            //fragment.setArguments(args);
-            return fragment;
-        }
-
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState){
             // Use current date as default date
@@ -448,19 +441,21 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             // Restrict what DOB's the user can enter
             dialog.getDatePicker().setMaxDate(new Date().getTime());
             final Calendar old = Calendar.getInstance();
-            // TODO: make this date a rolling window of 125 years
-            old.set(1890,0,1); // Remember that months are zero-indexed
+            old.set(year-125,0,1); // Remember that months are zero-indexed
             dialog.getDatePicker().setMinDate(old.getTimeInMillis());
             return dialog;
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day){
+            // Using date formatting to handle leading zeros and zero-indexed months
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar temp = Calendar.getInstance();
+            temp.set(year,month,day);
+            CaptureUserInfoActivity.setUserDOB(sdf.format(temp.getTime()));
             // Save date of birth in user prefs
-            // TODO: figure out how to store leading zeros
-            CaptureUserInfoActivity.setUserDOB(Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day));
             Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_DOB, CaptureUserInfoActivity.getUserDOB());
             // Set text of button to the date selected by the user
-            dobButton.setText("Date of Birth: "+ CaptureUserInfoActivity.getUserDOB());
+            CaptureUserInfoActivity.getDobButton().setText(getResources().getString(R.string.dob_btn_display, CaptureUserInfoActivity.getUserDOB()));
         }
     }
 

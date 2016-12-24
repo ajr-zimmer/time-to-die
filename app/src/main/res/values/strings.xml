@@ -4,5 +4,8 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">"Step %1$d: "</string>
     <string name="app_purpose">A Motivational App Embracing Memento Mori</string>
+    <string name="dob_btn_text">Your Date of Birth, Please</string>
+    <string name="motivate_btn_text">MOTIVATE!</string>
+    <string name="dob_btn_display">Date of Birth: %1$s</string>
 
 </resources>

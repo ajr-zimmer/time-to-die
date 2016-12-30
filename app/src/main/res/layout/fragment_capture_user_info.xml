@@ -44,6 +44,7 @@
             android:alpha="0.7"
             android:textColor="@android:color/white"
             android:textStyle="italic"
+            android:gravity="center"
             tools:text="Well, I hope you listen"
             android:layout_weight="0.27" />
     </LinearLayout>

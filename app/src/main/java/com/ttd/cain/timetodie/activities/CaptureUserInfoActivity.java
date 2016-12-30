@@ -3,8 +3,8 @@ package com.ttd.cain.timetodie.activities;
 import android.animation.ArgbEvaluator;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
@@ -15,18 +15,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
@@ -42,7 +38,6 @@ import com.ttd.cain.timetodie.R;
 import com.ttd.cain.timetodie.utils.Utils;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -288,15 +283,17 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 countryInput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        //TODO: perhaps change it so that something isn't automatically selected?
-                        Toast.makeText(parent.getContext(), parent.getItemAtPosition(position).toString()+" selected", Toast.LENGTH_LONG).show();
-                        //Toast.makeText(parent.getContext(), MainActivity.getCountryList().get(position).toString()+" selected", Toast.LENGTH_LONG).show();
+                        // TODO: make a default choice in spinner?
+                        //Toast.makeText(parent.getContext(), parent.getItemAtPosition(position).toString()+" selected", Toast.LENGTH_LONG).show();
                         CaptureUserInfoActivity.setUserCountry(parent.getItemAtPosition(position).toString());
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
-                        // TODO: notify end of input section that something is missing
+                        /**
+                         * Callback method to be invoked when the selection disappears from this view.
+                         * The selection can disappear for instance when touch is activated or when the adapter becomes empty.
+                         */
                     }
                 });
                 replaceableInput.addView(countryInput);
@@ -350,16 +347,19 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         // Save all of the previous section info into user prefs
-                        // TODO: validate that the user has selected something
-                        Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_COUNTRY, CaptureUserInfoActivity.getUserCountry());
-                        // Obtain the user's sex selected by the radio buttons and store it
-                        Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_SEX, CaptureUserInfoActivity.getUserSex());
+                        // TODO: Currently Country and Date are automatically set; change this?
+                        if(CaptureUserInfoActivity.getUserSex().isEmpty()){
+                            // TODO: switch to tab if there is missing input
+                            Toast.makeText(getContext(), "Please input your sex", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_COUNTRY, CaptureUserInfoActivity.getUserCountry());
+                            // Obtain the user's sex selected by the radio buttons and store it
+                            Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_SEX, CaptureUserInfoActivity.getUserSex());
 
-                        // TODO: switch to tab if there is missing input
-
-                        // Start activity to display captured info
-                        Intent intent = new Intent(getActivity(), DisplayUserInfoActivity.class);
-                        startActivity(intent);
+                            // Start activity to display captured info
+                            Intent intent = new Intent(getActivity(), DisplayUserInfoActivity.class);
+                            startActivity(intent);
+                        }
                     }
                 });
                 replaceableInput.addView(motivateBtn);
@@ -419,15 +419,16 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 c.set(Integer.parseInt(dates[0]), Integer.parseInt(dates[1]), Integer.parseInt(dates[2]));
             }
             int year = c.get(Calendar.YEAR);
+            c.add(Calendar.MONTH, -1); // user needs to be at least a month old
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
             // The theme below is there to force the picker to be a spinner
             DatePickerDialog dialog = new DatePickerDialog(getActivity(), android.R.style.Theme_Holo_Dialog, this, year, month, day);
             // Restrict what DOB's the user can enter
-            dialog.getDatePicker().setMaxDate(new Date().getTime());
             final Calendar old = Calendar.getInstance();
             old.set(year-125,0,1); // Remember that months are zero-indexed
             dialog.getDatePicker().setMinDate(old.getTimeInMillis());
+            dialog.getDatePicker().setMaxDate(c.getTimeInMillis());
             return dialog;
         }
 

@@ -51,6 +51,7 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
 
         // Modify country to be used as url parameter
         country = country.replaceAll(" ", "%20");
+        // TODO: create a blerb to say "So now that you know, what are you going to do with it?"
 
         age = calculateAge(dateOfBirth);
         System.out.println(age);

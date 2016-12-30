@@ -1,6 +1,5 @@
 package com.ttd.cain.timetodie.activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -11,7 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.ttd.cain.timetodie.R; // I suppose this is necessary
+import com.ttd.cain.timetodie.R;
 import com.ttd.cain.timetodie.utils.HttpHandler;
 
 import org.json.JSONArray;
@@ -28,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
     static final String TAG = MainActivity.class.getSimpleName();
     // URL to get country list
     private static ArrayList<String> countryList;
-    //private ProgressDialog pDialog;
+
+    Intent initialUserInfoCapture;
 
     // TODO: Skip capturing user info if we have already collected it
     public static final String PREF_USER_FIRST_TIME = "user_first_time";
@@ -53,12 +53,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // Showing progress dialog
-            /*pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage("Please wait...");
-            pDialog.setCancelable(false);
-            pDialog.show();*/
-
         }
 
         @Override
@@ -112,12 +106,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            // Dismiss the progress dialog
-            //if (pDialog.isShowing())
-            //    pDialog.dismiss();
-            /**
-             * Updating parsed JSON data into list
-             * */
+            // Start the tabbed CaptureUserInfoActivity that captures user input
+            // Starting activity here so that the spinner is populated in time
+            startActivity(initialUserInfoCapture);
         }
 
     }
@@ -129,10 +120,8 @@ public class MainActivity extends AppCompatActivity {
         // Prevent user from continuing if there is no network connection
         boolean isConnected = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
         if(isConnected){
+            initialUserInfoCapture = new Intent(this, CaptureUserInfoActivity.class);
             new GetCountries().execute();
-            // Start the tabbed CaptureUserInfoActivity that captures user input
-            Intent initialUserInfoCapture = new Intent(this, CaptureUserInfoActivity.class);
-            startActivity(initialUserInfoCapture);
         } else {
             // Notify the user that they need to have a connection
             Toast.makeText(this, "Network unavailable, please connect to a network", Toast.LENGTH_LONG).show();

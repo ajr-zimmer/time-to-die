@@ -34,12 +34,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ttd.cain.timetodie.R;
 import com.ttd.cain.timetodie.utils.Utils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -276,41 +279,25 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
             /** User has swiped to the Country section*/
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
-                AutoCompleteTextView countryInput = new AutoCompleteTextView(getActivity());
-                countryInput.setHint("Where are you living?");
-                countryInput.setGravity(CENTER);
-                countryInput.setText(CaptureUserInfoActivity.getUserCountry());
-
+                Spinner countryInput = new Spinner(getActivity());
+                // Create an ArrayAdapter using the ArrayList of countries and a default spinner layout
                 //String[] countries = getResources().getStringArray(R.array.countries_array);
-                // Create the adapter and set it to the AutoCompleteTextView
-                final ArrayAdapter<String> adapter =
-                        new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, MainActivity.getCountryList());
-                        //new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, countries);
-
-                // this allows the text field to suggest from the array of countries
+                final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, MainActivity.getCountryList());
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 countryInput.setAdapter(adapter);
-                countryInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                countryInput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        // Store whatever the user has selected from the dropdown
-                        CaptureUserInfoActivity.setUserCountry(adapter.getItem(position));
-                        InputMethodManager input = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                        input.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        //TODO: perhaps change it so that something isn't automatically selected?
+                        Toast.makeText(parent.getContext(), parent.getItemAtPosition(position).toString()+" selected", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(parent.getContext(), MainActivity.getCountryList().get(position).toString()+" selected", Toast.LENGTH_LONG).show();
+                        CaptureUserInfoActivity.setUserCountry(parent.getItemAtPosition(position).toString());
                     }
-                });
-                /**
-                 * Unset the user's country whenever the user types. Validation will then fail.
-                 * This is how we enforce selecting from the list.
-                 */
-                countryInput.addTextChangedListener(new TextWatcher() {
+
                     @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        CaptureUserInfoActivity.setUserCountry(null);
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        // TODO: notify end of input section that something is missing
                     }
-                    @Override
-                    public void afterTextChanged(Editable s) { }
                 });
                 replaceableInput.addView(countryInput);
 

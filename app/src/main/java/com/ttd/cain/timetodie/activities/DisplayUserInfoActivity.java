@@ -65,7 +65,8 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
 
         Calendar dob = Calendar.getInstance();
         String[] dates = dobString.split("-");
-        dob.set(Integer.parseInt(dates[0]), Integer.parseInt(dates[1]), Integer.parseInt(dates[2]));
+        // add -1 to month because they are zero-indexed
+        dob.set(Integer.parseInt(dates[0]), Integer.parseInt(dates[1])-1, Integer.parseInt(dates[2]));
         Calendar now = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         today = sdf.format(now.getTime());

@@ -359,6 +359,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                             // Start activity to display captured info
                             Intent intent = new Intent(getActivity(), DisplayUserInfoActivity.class);
                             startActivity(intent);
+                            getActivity().finish(); // keep user in the countdown activity
                         }
                     }
                 });
@@ -419,7 +420,6 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 c.set(Integer.parseInt(dates[0]), Integer.parseInt(dates[1]), Integer.parseInt(dates[2]));
             }
             int year = c.get(Calendar.YEAR);
-            c.add(Calendar.MONTH, -1); // user needs to be at least a month old
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
             // The theme below is there to force the picker to be a spinner

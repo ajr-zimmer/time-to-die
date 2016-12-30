@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
             // Start the tabbed CaptureUserInfoActivity that captures user input
             // Starting activity here so that the spinner is populated in time
             startActivity(initialUserInfoCapture);
+            finish(); // finish this initial screen
         }
 
     }

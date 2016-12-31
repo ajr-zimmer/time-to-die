@@ -1,8 +1,6 @@
 package com.ttd.cain.timetodie.activities;
 
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +10,7 @@ import android.widget.Toast;
 
 import com.ttd.cain.timetodie.R;
 import com.ttd.cain.timetodie.utils.HttpHandler;
+import com.ttd.cain.timetodie.utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,15 +24,11 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     static final String TAG = MainActivity.class.getSimpleName();
-    // URL to get country list
-    private static ArrayList<String> countryList;
 
     Intent initialUserInfoCapture;
 
-    // TODO: Skip capturing user info if we have already collected it
-    public static final String PREF_USER_FIRST_TIME = "user_first_time";
-    boolean isUserFirstTime;
-
+    // URL to get country list
+    private static ArrayList<String> countryList;
     public static ArrayList<String> getCountryList(){ return countryList;}
 
     @Override
@@ -115,12 +110,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void beginInfo(View view){
-        // TODO: make some sort of method for making sure a connection persists throughout the info tabs
-        ConnectivityManager cManager = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = cManager.getActiveNetworkInfo();
-        // Prevent user from continuing if there is no network connection
-        boolean isConnected = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-        if(isConnected){
+        if(Utils.isConnectedToNetwork(this)){
             initialUserInfoCapture = new Intent(this, CaptureUserInfoActivity.class);
             new GetCountries().execute();
         } else {

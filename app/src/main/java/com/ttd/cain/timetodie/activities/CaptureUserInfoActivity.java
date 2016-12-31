@@ -4,7 +4,6 @@ import android.animation.ArgbEvaluator;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
@@ -228,7 +227,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         // Images in each section
-        ImageView img;
+        ImageView sectionImg;
         int[] bgs = new int[]{R.drawable.ic_globe_black_512dp, R.drawable.ic_hourglass_black_1000dp,
                 R.drawable.ic_people_black_512dp, R.drawable.ic_skull_multi_72dp};
 
@@ -258,16 +257,16 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
 
             // Place images into sections
-            img = (ImageView) rootView.findViewById(R.id.section_img);
-            img.setBackgroundResource(bgs[getArguments().getInt(ARG_SECTION_NUMBER)-1]);
+            sectionImg = (ImageView) rootView.findViewById(R.id.section_img);
+            sectionImg.setBackgroundResource(bgs[getArguments().getInt(ARG_SECTION_NUMBER)-1]);
 
             // Text bodies in each section
-            TextView txtHowto;
-            String[] bodies = getResources().getStringArray(R.array.tutbody_array);
+            TextView txtHowTo;
+            String[] textBodies = getResources().getStringArray(R.array.tutbody_array);
 
             // Changes instructions based on section
-            txtHowto = (TextView) rootView.findViewById(R.id.section_body);
-            txtHowto.setText(bodies[getArguments().getInt(ARG_SECTION_NUMBER)-1]);
+            txtHowTo = (TextView) rootView.findViewById(R.id.section_body);
+            txtHowTo.setText(textBodies[getArguments().getInt(ARG_SECTION_NUMBER)-1]);
 
             // Modify the input method based on the section
             final LinearLayout replaceableInput = (LinearLayout) rootView.findViewById(R.id.replaceable);
@@ -283,8 +282,6 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 countryInput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        // TODO: make a default choice in spinner?
-                        //Toast.makeText(parent.getContext(), parent.getItemAtPosition(position).toString()+" selected", Toast.LENGTH_LONG).show();
                         CaptureUserInfoActivity.setUserCountry(parent.getItemAtPosition(position).toString());
                     }
 
@@ -346,21 +343,27 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 motivateBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Save all of the previous section info into user prefs
+                        // Check if information has been entered for the previous sections
                         // TODO: Currently Country and Date are automatically set; change this?
                         if(CaptureUserInfoActivity.getUserSex().isEmpty()){
                             // TODO: switch to tab if there is missing input?
                             Toast.makeText(getContext(), "Please input your sex", Toast.LENGTH_SHORT).show();
                         } else {
+                            // Save the country selected in the dropdown by the user
                             Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_COUNTRY, CaptureUserInfoActivity.getUserCountry());
                             // Obtain the user's sex selected by the radio buttons and store it
                             Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_SEX, CaptureUserInfoActivity.getUserSex());
-
-                            // Start activity to display captured info
-                            Intent intent = new Intent(getActivity(), DisplayUserInfoActivity.class);
-                            // TODO: make sure user still has network connectivity
-                            startActivity(intent);
-                            getActivity().finish(); // keep user in the countdown activity
+                            // Make sure the user still has a network connection for the next call
+                            if(Utils.isConnectedToNetwork(getActivity())){
+                                // Start activity to display captured info
+                                Intent intent = new Intent(getActivity(), DisplayUserInfoActivity.class);
+                                startActivity(intent);
+                                // keep user in the countdown activity
+                                getActivity().finish();
+                            } else {
+                                // Notify the user that they need to have a connection
+                                Toast.makeText(getActivity(), "Network unavailable, please connect to a network", Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 });

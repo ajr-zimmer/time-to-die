@@ -1,13 +1,10 @@
 package com.ttd.cain.timetodie.activities;
 
-import android.content.Intent;
-import android.icu.util.TimeUnit;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +12,6 @@ import com.ttd.cain.timetodie.R;
 import com.ttd.cain.timetodie.utils.HttpHandler;
 import com.ttd.cain.timetodie.utils.Utils;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,8 +27,9 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
     String dateOfBirth;
     String sex;
 
-    String today;
     String age;
+    String today;
+
     double yearsLeft;
 
     @Override
@@ -45,15 +42,14 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
         sex = Utils.readSharedSetting(DisplayUserInfoActivity.this, CaptureUserInfoActivity.PREF_USER_SEX, "No Sex");
 
         String stats = "Stats:\nPlace of Living = "+ country +"\n"+ "Start of Life = " + dateOfBirth +"\n"+ "Body Living = "+ sex;
-        TextView userstats = (TextView) findViewById(R.id.userstats);
-        userstats.setText(stats);
+        TextView userStats = (TextView) findViewById(R.id.userstats);
+        userStats.setText(stats);
 
         // Modify country to be used as url parameter
         country = country.replaceAll(" ", "%20");
 
         age = calculateAge(dateOfBirth);
-        System.out.println(age);
-        new GetTimeLeft().execute(); // TODO: check if user still has network connectivity
+        new GetTimeLeft().execute();
     }
 
     // Inspired by http://howtodoinjava.com/for-fun-only/java-code-to-calculate-age-from-date-of-birth/
@@ -123,12 +119,6 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // Showing progress dialog
-            /*pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage("Please wait...");
-            pDialog.setCancelable(false);
-            pDialog.show();*/
-
         }
 
         @Override
@@ -175,20 +165,13 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            // Dismiss the progress dialog
-            //if (pDialog.isShowing())
-            //    pDialog.dismiss();
-            /**
-             * Updating parsed JSON data into list
-             * */
             // In the Gregorian calendar, a year has on average 365.2425 days.
             System.out.println("Years left: "+ yearsLeft);
             long millisLeftToLive = (long)(yearsLeft * (365.2425 * 24 * 60 * 60 * 1000));
             countdownText = (TextView) findViewById(R.id.countdowntimer);
-            countdownText.setText("00:00:00");
-            // start time 3 minutes, decrement by 1 second
-            final CounterClass timer = new CounterClass(millisLeftToLive, 1000);
-            timer.start();
+            // set the start time and decrement by 1 second
+            final CounterClass countDown = new CounterClass(millisLeftToLive, 1000);
+            countDown.start();
         }
 
     }
@@ -202,12 +185,10 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
         @Override
         public void onTick(long millisUntilFinished){
             long millis = millisUntilFinished;
-
             String hms = String.format("%02d Days\n%02d Hours\n%02d Minutes\n%02d Seconds", java.util.concurrent.TimeUnit.MILLISECONDS.toDays(millis),
                     java.util.concurrent.TimeUnit.MILLISECONDS.toHours(millis) - java.util.concurrent.TimeUnit.DAYS.toHours(java.util.concurrent.TimeUnit.MILLISECONDS.toDays(millis)),
                     java.util.concurrent.TimeUnit.MILLISECONDS.toMinutes(millis) - java.util.concurrent.TimeUnit.HOURS.toMinutes(java.util.concurrent.TimeUnit.MILLISECONDS.toHours(millis)),
                     java.util.concurrent.TimeUnit.MILLISECONDS.toSeconds(millis) - java.util.concurrent.TimeUnit.MINUTES.toSeconds(java.util.concurrent.TimeUnit.MILLISECONDS.toMinutes(millis)));
-            //System.out.println(hms);
             countdownText.setText(hms);
         }
 

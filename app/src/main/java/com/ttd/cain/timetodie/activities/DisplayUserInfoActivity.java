@@ -50,7 +50,6 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
 
         // Modify country to be used as url parameter
         country = country.replaceAll(" ", "%20");
-        // TODO: prevent user from going back once on this page
 
         age = calculateAge(dateOfBirth);
         System.out.println(age);
@@ -58,42 +57,54 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
     }
 
     // Inspired by http://howtodoinjava.com/for-fun-only/java-code-to-calculate-age-from-date-of-birth/
-    private String calculateAge(String dobString){
+    private String calculateAge(String dateOfBirthString){
         int years = 0;
         int months = 0;
         int days = 0;
 
-        Calendar dob = Calendar.getInstance();
-        String[] dates = dobString.split("-");
+        Calendar dateOfBirth = Calendar.getInstance();
+        String[] dates = dateOfBirthString.split("-");
         // add -1 to month because they are zero-indexed
-        dob.set(Integer.parseInt(dates[0]), Integer.parseInt(dates[1])-1, Integer.parseInt(dates[2]));
+        dateOfBirth.set(Integer.parseInt(dates[0]), Integer.parseInt(dates[1])-1, Integer.parseInt(dates[2]));
         Calendar now = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         today = sdf.format(now.getTime());
 
-        years = now.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
-        int currMonth = now.get(Calendar.MONTH)+1;
-        int dobMonth = dob.get(Calendar.MONTH)+1;
-        months = currMonth - dobMonth;
-        // if difference is negative then reduce years by one and calculate number of months
+        years = now.get(Calendar.YEAR) - dateOfBirth.get(Calendar.YEAR);
+        // add +1 to month because they are zero-indexed
+        int currentMonth = now.get(Calendar.MONTH)+1;
+        int dateOfBirthMonth = dateOfBirth.get(Calendar.MONTH)+1;
+        months = currentMonth - dateOfBirthMonth;
+
+        int currentDay = now.get(Calendar.DATE);
+        int dateOfBirthDay = dateOfBirth.get(Calendar.DATE);
+
+        // dob month is later in the year than the current month (i.e. not a full year between)
         if(months < 0){
             years--;
-            months = 12 - dobMonth + currMonth;
-            if(now.get(Calendar.DATE) < dob.get(Calendar.DATE)){ months--;}
-        } else if(months == 0 && now.get(Calendar.DATE) < dob.get(Calendar.DATE)){
+            // number of months from dobMonth to currentMonth in the following year
+            // e.g. Sept 1980 --> May 1981 = 8 months
+            months = (12 - dateOfBirthMonth) + currentMonth;
+            // not an exact number of months away, need to narrow down to number of days
+            if(currentDay < dateOfBirthDay){ months--;}
+        // same month, but not exactly 12 months worth of days apart
+        } else if(months == 0 && currentDay < dateOfBirthDay){
             years--;
             months = 11;
         }
-        // Calculate the days
-        // TODO: this needs commenting
-        if(now.get(Calendar.DATE) > dob.get(Calendar.DATE)){
-            days = now.get(Calendar.DATE) - dob.get(Calendar.DATE);
-        } else if(now.get(Calendar.DATE) < dob.get(Calendar.DATE)){
-            int today = now.get(Calendar.DAY_OF_MONTH);
+        // current day is farther along in the month than the dob
+        if(currentDay > dateOfBirthDay){
+            days = currentDay - dateOfBirthDay;
+        // current day comes earlier in the month than the dob
+        } else if(currentDay < dateOfBirthDay){
+            //int today = now.get(Calendar.DAY_OF_MONTH);
+            // there is one less month because the current day is less than an exact month away
             now.add(Calendar.MONTH, -1);
-            days = now.getActualMaximum(Calendar.DAY_OF_MONTH) - dob.get(Calendar.DAY_OF_MONTH) + today;
+            days = (now.getActualMaximum(Calendar.DAY_OF_MONTH) - dateOfBirth.get(Calendar.DAY_OF_MONTH)) + now.get(Calendar.DAY_OF_MONTH);
+        // same day
         } else {
             days = 0;
+            // edge case where months has become 12
             if(months == 12){
                 years++;
                 months = 0;

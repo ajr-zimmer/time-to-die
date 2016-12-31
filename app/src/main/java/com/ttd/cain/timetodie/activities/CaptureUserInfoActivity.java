@@ -301,7 +301,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 /** User has swiped to the Date of Birth section*/
             } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
                 Button dateOfBirthButton = new Button(getActivity());
-                dateOfBirthButton.setText(R.string.dob_btn_text); // TODO: NiceToHave- need conditional to display date previously stored if moving back from post-motivate screen
+                dateOfBirthButton.setText(R.string.dob_btn_text);
                 dateOfBirthButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -349,7 +349,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                         // Save all of the previous section info into user prefs
                         // TODO: Currently Country and Date are automatically set; change this?
                         if(CaptureUserInfoActivity.getUserSex().isEmpty()){
-                            // TODO: switch to tab if there is missing input
+                            // TODO: switch to tab if there is missing input?
                             Toast.makeText(getContext(), "Please input your sex", Toast.LENGTH_SHORT).show();
                         } else {
                             Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_COUNTRY, CaptureUserInfoActivity.getUserCountry());
@@ -358,6 +358,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
                             // Start activity to display captured info
                             Intent intent = new Intent(getActivity(), DisplayUserInfoActivity.class);
+                            // TODO: make sure user still has network connectivity
                             startActivity(intent);
                             getActivity().finish(); // keep user in the countdown activity
                         }
@@ -428,7 +429,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             final Calendar old = Calendar.getInstance();
             old.set(year-125,0,1); // Remember that months are zero-indexed
             dialog.getDatePicker().setMinDate(old.getTimeInMillis());
-            dialog.getDatePicker().setMaxDate(c.getTimeInMillis());
+            dialog.getDatePicker().setMaxDate(new Date().getTime());
             return dialog;
         }
 

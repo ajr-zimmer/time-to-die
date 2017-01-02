@@ -19,8 +19,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-/** TODO: Although this is a general landing page,
- * the goal is to be able to sign in with Google account to manage login **/
 public class MainActivity extends AppCompatActivity {
 
     static final String TAG = MainActivity.class.getSimpleName();

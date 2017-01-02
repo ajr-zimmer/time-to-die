@@ -50,7 +50,6 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
 
         age = calculateAge(dateOfBirth);
         new GetTimeLeft().execute();
-        // TODO: Clear user variables that were set if user hits back and tries to run through again
     }
 
     // Inspired by http://howtodoinjava.com/for-fun-only/java-code-to-calculate-age-from-date-of-birth/

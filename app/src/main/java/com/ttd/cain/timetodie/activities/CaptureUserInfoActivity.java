@@ -46,6 +46,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
     public static final String PREF_USER_COUNTRY = "user_country";
     private static String userCountry = "";
+    private static int countryIndex = 0;
 
     public static final String PREF_USER_DOB = "user_dob";
     private static String userDOB = "";
@@ -80,6 +81,8 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
     public static String getUserCountry(){ return userCountry; }
     public static void setUserCountry(String country){ userCountry = country; }
+    public static int getCountryIndex(){ return countryIndex; }
+    public static void setCountryIndex(int index){ countryIndex = index; }
 
     public static String getUserDOB(){ return userDOB; }
     public static void setUserDOB(String dob){ userDOB = dob;}
@@ -278,7 +281,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
             /** User has swiped to the Country section*/
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
-                Spinner countryInput = new Spinner(getActivity());
+                final Spinner countryInput = new Spinner(getActivity());
                 // Create an ArrayAdapter using the ArrayList of countries and a default spinner layout
                 //String[] countries = getResources().getStringArray(R.array.countries_array);
                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, MainActivity.getCountryList());
@@ -289,6 +292,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if(position != 0){ // Not the spinner "hint"
                             CaptureUserInfoActivity.setUserCountry(parent.getItemAtPosition(position).toString());
+                            setCountryIndex(position);
                         }
                     }
 
@@ -300,6 +304,8 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                          */
                     }
                 });
+                // Explicitly set the selection to show what country has been selected, even when the user swipes away
+                countryInput.setSelection(getCountryIndex());
                 replaceableInput.addView(countryInput);
 
                 /** User has swiped to the Date of Birth section*/
@@ -351,7 +357,6 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         // Check if information has been entered for the previous sections
-                        // TODO: Currently Date is automatically set; change this?
                         // TODO: switch to tab if there is missing input?
                         if(CaptureUserInfoActivity.getUserCountry().isEmpty()){
                             Toast.makeText(getContext(), "Please input your country of residence", Toast.LENGTH_SHORT).show();

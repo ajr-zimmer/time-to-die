@@ -282,7 +282,9 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 countryInput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        CaptureUserInfoActivity.setUserCountry(parent.getItemAtPosition(position).toString());
+                        if(position != 0){ // Not the spinner "hint"
+                            CaptureUserInfoActivity.setUserCountry(parent.getItemAtPosition(position).toString());
+                        }
                     }
 
                     @Override
@@ -344,9 +346,11 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         // Check if information has been entered for the previous sections
-                        // TODO: Currently Country and Date are automatically set; change this?
-                        if(CaptureUserInfoActivity.getUserSex().isEmpty()){
-                            // TODO: switch to tab if there is missing input?
+                        // TODO: Currently Date is automatically set; change this?
+                        // TODO: switch to tab if there is missing input?
+                        if(CaptureUserInfoActivity.getUserCountry().isEmpty()){
+                            Toast.makeText(getContext(), "Please input your country of residence", Toast.LENGTH_SHORT).show();
+                        } else if(CaptureUserInfoActivity.getUserSex().isEmpty()){
                             Toast.makeText(getContext(), "Please input your sex", Toast.LENGTH_SHORT).show();
                         } else {
                             // Save the country selected in the dropdown by the user

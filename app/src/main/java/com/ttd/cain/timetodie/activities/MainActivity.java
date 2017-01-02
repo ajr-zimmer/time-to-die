@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     // URL to get country list
     private static ArrayList<String> countryList;
     public static ArrayList<String> getCountryList(){ return countryList;}
+    public static void setCountryList(ArrayList<String> updatedCountryList){ countryList = updatedCountryList;}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +66,16 @@ public class MainActivity extends AppCompatActivity {
 
                     // Getting JSON Array node
                     JSONArray contacts = jsonObj.getJSONArray("countries");
+                    ArrayList<String> countryList = getCountryList();
+                    // Add default "hint" at the top of the spinner
+                    countryList.add("Select Your Country of Residence");
 
                     // looping through All Contacts
                     for (int i = 0; i < contacts.length(); i++) {
                         // adding country to country list
                         countryList.add(contacts.getString(i));
                     }
+                    setCountryList(countryList);
                 } catch (final JSONException e) {
                     Log.e(TAG, "Json parsing error: " + e.getMessage());
                     runOnUiThread(new Runnable() {

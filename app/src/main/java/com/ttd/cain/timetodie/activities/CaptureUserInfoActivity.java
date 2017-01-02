@@ -180,6 +180,11 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 mViewPager.setCurrentItem(page, true);
             }
         });
+
+        // Clear out user prefs
+        Utils.saveSharedSetting(this, CaptureUserInfoActivity.PREF_USER_COUNTRY, "");
+        Utils.saveSharedSetting(this, CaptureUserInfoActivity.PREF_USER_DOB, "");
+        Utils.saveSharedSetting(this, CaptureUserInfoActivity.PREF_USER_SEX, "");
     }
 
 
@@ -350,6 +355,8 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                         // TODO: switch to tab if there is missing input?
                         if(CaptureUserInfoActivity.getUserCountry().isEmpty()){
                             Toast.makeText(getContext(), "Please input your country of residence", Toast.LENGTH_SHORT).show();
+                        } else if (CaptureUserInfoActivity.getUserDOB().isEmpty()){
+                            Toast.makeText(getContext(), "Please input your date of birth", Toast.LENGTH_SHORT).show();
                         } else if(CaptureUserInfoActivity.getUserSex().isEmpty()){
                             Toast.makeText(getContext(), "Please input your sex", Toast.LENGTH_SHORT).show();
                         } else {

@@ -68,12 +68,14 @@ public class MainActivity extends AppCompatActivity {
                     JSONArray contacts = jsonObj.getJSONArray("countries");
                     ArrayList<String> countryList = getCountryList();
                     // Add default "hint" at the top of the spinner
-                    countryList.add("Select Your Country of Residence");
+                    countryList.add("Country of Residence, Please");
 
                     // looping through All Contacts
                     for (int i = 0; i < contacts.length(); i++) {
                         // adding country to country list
-                        countryList.add(contacts.getString(i));
+                        if(!contacts.getString(i).equals("World")){ // don't want to add option for entire planet
+                            countryList.add(contacts.getString(i));
+                        }
                     }
                     setCountryList(countryList);
                 } catch (final JSONException e) {

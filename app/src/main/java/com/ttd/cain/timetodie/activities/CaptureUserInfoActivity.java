@@ -281,9 +281,8 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
             /** User has swiped to the Country section*/
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
-                final Spinner countryInput = new Spinner(getActivity());
+                Spinner countryInput = new Spinner(getActivity());
                 // Create an ArrayAdapter using the ArrayList of countries and a default spinner layout
-                //String[] countries = getResources().getStringArray(R.array.countries_array);
                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, MainActivity.getCountryList());
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 countryInput.setAdapter(adapter);
@@ -311,7 +310,13 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 /** User has swiped to the Date of Birth section*/
             } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
                 Button dateOfBirthButton = new Button(getActivity());
-                dateOfBirthButton.setText(R.string.dob_btn_text);
+                if(getUserDOB().isEmpty()){
+                    // Show default prompt if nothing has been chosen
+                    dateOfBirthButton.setText(R.string.dob_btn_text);
+                } else {
+                    // Set text of button to the date selected by the user
+                    dateOfBirthButton.setText(getResources().getString(R.string.dob_btn_display, getUserDOB()));
+                }
                 dateOfBirthButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

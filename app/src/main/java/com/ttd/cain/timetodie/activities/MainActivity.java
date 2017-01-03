@@ -25,17 +25,17 @@ public class MainActivity extends AppCompatActivity {
 
     Intent initialUserInfoCapture;
 
-    // URL to get country list
-    private static ArrayList<String> countryList;
-    public static ArrayList<String> getCountryList(){ return countryList;}
-    public static void setCountryList(ArrayList<String> updatedCountryList){ countryList = updatedCountryList;}
+    // List to hold the countries retrieved from the upcoming REST call
+    private static ArrayList<String> countries;
+    public static ArrayList<String> getCountries(){ return countries;}
+    public static void setCountries(ArrayList<String> updatedCountryList){ countries = updatedCountryList;}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        countryList = new ArrayList<String>();
+        countries = new ArrayList<String>();
     }
 
     /**
@@ -52,30 +52,30 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
-            String countryURL = "http://api.population.io:80/1.0/countries";
+            String countriesURL = "http://api.population.io:80/1.0/countries";
             // Making a request to url and getting response
-            String jsonStr = sh.makeServiceCall(countryURL);
+            String jsonResponse = sh.makeServiceCall(countriesURL);
 
-            Log.e(TAG, "Response from url: " + jsonStr);
+            Log.i(TAG, "Response from url: " + jsonResponse);
 
-            if (jsonStr != null) {
+            if (jsonResponse != null) {
                 try {
-                    JSONObject jsonObj = new JSONObject(jsonStr);
+                    JSONObject responseObject = new JSONObject(jsonResponse);
 
                     // Getting JSON Array node
-                    JSONArray contacts = jsonObj.getJSONArray("countries");
-                    ArrayList<String> countryList = getCountryList();
+                    JSONArray countriesFromAPI = responseObject.getJSONArray("countries");
+                    ArrayList<String> countries = getCountries();
                     // Add default "hint" at the top of the spinner
-                    countryList.add("Country of Residence, Please");
+                    countries.add("Country of Residence, Please");
 
                     // looping through All Contacts
-                    for (int i = 0; i < contacts.length(); i++) {
+                    for (int i = 0; i < countriesFromAPI.length(); i++) {
                         // adding country to country list
-                        if(!contacts.getString(i).equals("World")){ // don't want to add option for entire planet
-                            countryList.add(contacts.getString(i));
+                        if(!countriesFromAPI.getString(i).equals("World")){ // don't want to add option for entire planet
+                            countries.add(countriesFromAPI.getString(i));
                         }
                     }
-                    setCountryList(countryList);
+                    setCountries(countries);
                 } catch (final JSONException e) {
                     Log.e(TAG, "Json parsing error: " + e.getMessage());
                     runOnUiThread(new Runnable() {
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(getApplicationContext(),
-                                "Couldn't get json from server. Check LogCat for possible errors!",
+                                "Couldn't get json from server. Check the logs for possible errors!",
                                 Toast.LENGTH_LONG)
                                 .show();
                     }
@@ -117,9 +117,10 @@ public class MainActivity extends AppCompatActivity {
     public void beginInfo(View view){
         if(Utils.isConnectedToNetwork(this)){
             initialUserInfoCapture = new Intent(this, CaptureUserInfoActivity.class);
+            // TODO: Show progress dialog while pulling in data
             new GetCountries().execute();
         } else {
-            // Notify the user that they need to have a connection
+            // Notify the user that they need to have a network connection
             Toast.makeText(this, "Network unavailable, please connect to a network", Toast.LENGTH_LONG).show();
         }
     }

@@ -96,8 +96,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture_user_info);
-        // Create the adapter that will return a fragment for each of the three
-        // Primary sections of the activity.
+        // Create the adapter that will return a fragment for each of the three primary section of the activity
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         mBackBtn = (ImageButton) findViewById(R.id.tutorial_btn_back);
@@ -131,7 +130,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels){
-                // Update colour of section
+                // Update background colour of each section
                 int colourUpdate = (Integer) evaluator.evaluate(positionOffset, colourList[position],
                         colourList[position == 3 ? position : position + 1]);
                 mViewPager.setBackgroundColor(colourUpdate);
@@ -184,7 +183,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             }
         });
 
-        // Clear out user prefs
+        // Clear out user prefs from the previous run-through
         Utils.saveSharedSetting(this, CaptureUserInfoActivity.PREF_USER_COUNTRY, "");
         Utils.saveSharedSetting(this, CaptureUserInfoActivity.PREF_USER_DOB, "");
         Utils.saveSharedSetting(this, CaptureUserInfoActivity.PREF_USER_SEX, "");
@@ -259,37 +258,37 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
-            // Append direction title
+            // Append section titles
             String[] titles = getResources().getStringArray(R.array.tuttitle_array);
             textView.append(titles[getArguments().getInt(ARG_SECTION_NUMBER)-1]);
-
 
             // Place images into sections
             sectionImg = (ImageView) rootView.findViewById(R.id.section_img);
             sectionImg.setBackgroundResource(bgs[getArguments().getInt(ARG_SECTION_NUMBER)-1]);
 
-            // Text bodies in each section
+            // Get text to be placed into text bodies
             TextView txtHowTo;
             String[] textBodies = getResources().getStringArray(R.array.tutbody_array);
 
-            // Changes instructions based on section
+            // Changes instructions/steps based on section
             txtHowTo = (TextView) rootView.findViewById(R.id.section_body);
             txtHowTo.setText(textBodies[getArguments().getInt(ARG_SECTION_NUMBER)-1]);
 
             // Modify the input method based on the section
             final LinearLayout replaceableInput = (LinearLayout) rootView.findViewById(R.id.replaceable);
 
+
             /** User has swiped to the Country section*/
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
                 Spinner countryInput = new Spinner(getActivity());
                 // Create an ArrayAdapter using the ArrayList of countries and a default spinner layout
-                final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, MainActivity.getCountryList());
+                final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, MainActivity.getCountries());
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 countryInput.setAdapter(adapter);
                 countryInput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if(position != 0){ // Not the spinner "hint"
+                        if(position != 0){ // Anything that is not the spinner "hint"
                             CaptureUserInfoActivity.setUserCountry(parent.getItemAtPosition(position).toString());
                             setCountryIndex(position);
                         }
@@ -307,6 +306,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 countryInput.setSelection(getCountryIndex());
                 replaceableInput.addView(countryInput);
 
+
                 /** User has swiped to the Date of Birth section*/
             } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
                 Button dateOfBirthButton = new Button(getActivity());
@@ -320,13 +320,15 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 dateOfBirthButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Create new fragment, passing the id of the display textview
+                        // Create new fragment to display the date picker
                         DialogFragment newFragment = new DateOfBirthFragment();
                         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
                     }
                 });
                 replaceableInput.addView(dateOfBirthButton);
+                // Set here so that the onDateSet method can change the text of the button
                 CaptureUserInfoActivity.setDobButton(dateOfBirthButton);
+
 
                 /** User has swiped to the Sex section*/
             } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){
@@ -355,14 +357,14 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 });
                 replaceableInput.addView(rg);
 
-            } else { // Final section
+            } else { // Final "Launch" section
                 Button motivateBtn = new Button(getActivity());
                 motivateBtn.setText(R.string.motivate_btn_text);
                 motivateBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Check if information has been entered for the previous sections
                         // TODO: switch to tab if there is missing input?
+                        // Check if information has been entered for the previous sections
                         if(CaptureUserInfoActivity.getUserCountry().isEmpty()){
                             Toast.makeText(getContext(), "Please input your country of residence", Toast.LENGTH_SHORT).show();
                         } else if (CaptureUserInfoActivity.getUserDOB().isEmpty()){
@@ -372,9 +374,11 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                         } else {
                             // Save the country selected in the dropdown by the user
                             Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_COUNTRY, CaptureUserInfoActivity.getUserCountry());
+
                             // Obtain the user's sex selected by the radio buttons and store it
                             Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_SEX, CaptureUserInfoActivity.getUserSex());
-                            // Make sure the user still has a network connection for the next call
+
+                            // Make sure the user still has a network connection for the next REST call
                             if(Utils.isConnectedToNetwork(getActivity())){
                                 // Start activity to display captured info
                                 Intent intent = new Intent(getActivity(), DisplayUserInfoActivity.class);
@@ -440,7 +444,8 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState){
             // Use current date as default date
             final Calendar c = Calendar.getInstance();
-            if(!CaptureUserInfoActivity.getUserDOB().isEmpty()){ // date has been set previously
+            // If the date has been set previously, show that date in the picker
+            if(!CaptureUserInfoActivity.getUserDOB().isEmpty()){
                 String[] dates = CaptureUserInfoActivity.getUserDOB().split("-");
                 c.set(Integer.parseInt(dates[0]), Integer.parseInt(dates[1]), Integer.parseInt(dates[2]));
             }
@@ -449,10 +454,12 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             int day = c.get(Calendar.DAY_OF_MONTH);
             // The theme below is there to force the picker to be a spinner
             DatePickerDialog dialog = new DatePickerDialog(getActivity(), android.R.style.Theme_Holo_Dialog, this, year, month, day);
+
             // Restrict what DOB's the user can enter
-            final Calendar old = Calendar.getInstance();
-            old.set(year-125,0,1); // Remember that months are zero-indexed
-            dialog.getDatePicker().setMinDate(old.getTimeInMillis());
+            final Calendar oldestDOB = Calendar.getInstance();
+            // Rolling window of 125 years
+            oldestDOB.set(year-125,0,1); // Remember that months are zero-indexed
+            dialog.getDatePicker().setMinDate(oldestDOB.getTimeInMillis());
             dialog.getDatePicker().setMaxDate(new Date().getTime());
             return dialog;
         }

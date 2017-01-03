@@ -7,6 +7,7 @@
     <string name="dob_btn_text">Date of Birth, Please</string>
     <string name="motivate_btn_text">MOTIVATE!</string>
     <string name="dob_btn_display">Date of Birth: %1$s</string>
+    <string name="countdown_text">Calculating Life Left...</string>
     <string name="what_say_you">Now that you know how long you have, what will you do with it?</string>
 
 </resources>

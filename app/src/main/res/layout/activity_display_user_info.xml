@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="37dp"
-        android:text="Countdown"
+        android:text="@string/countdown_text"
         android:textColor="@color/colorAccent"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />

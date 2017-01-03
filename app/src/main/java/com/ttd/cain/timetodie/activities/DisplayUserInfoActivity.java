@@ -127,14 +127,14 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
             String timeLeftURL = String.format("http://api.population.io:80/1.0/life-expectancy/remaining/%s/%s/%s/%s/",
                     sex, country, today, age);
             // Making a request to url and getting response
-            String jsonStr = sh.makeServiceCall(timeLeftURL);
+            String jsonResponse = sh.makeServiceCall(timeLeftURL);
 
-            Log.e(TAG, "Response from url: " + jsonStr);
+            Log.i(TAG, "Response from url: " + jsonResponse);
 
-            if (jsonStr != null) {
+            if (jsonResponse != null) {
                 try {
-                    JSONObject jsonObj = new JSONObject(jsonStr);
-                    yearsLeft = jsonObj.getDouble("remaining_life_expectancy");
+                    JSONObject responseObject = new JSONObject(jsonResponse);
+                    yearsLeft = responseObject.getDouble("remaining_life_expectancy");
                 } catch (final JSONException e) {
                     Log.e(TAG, "Json parsing error: " + e.getMessage());
                     runOnUiThread(new Runnable() {
@@ -153,7 +153,7 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(getApplicationContext(),
-                                "Couldn't get json from server. Check LogCat for possible errors!",
+                                "Couldn't get json from server. Check the logs for possible errors!",
                                 Toast.LENGTH_LONG)
                                 .show();
                     }
@@ -165,8 +165,9 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+            Log.i(TAG, "Years left: "+ yearsLeft);
+
             // In the Gregorian calendar, a year has on average 365.2425 days.
-            System.out.println("Years left: "+ yearsLeft);
             long millisLeftToLive = (long)(yearsLeft * (365.2425 * 24 * 60 * 60 * 1000));
             countdownText = (TextView) findViewById(R.id.countdowntimer);
             // set the start time and decrement by 1 second

@@ -18,6 +18,7 @@
         android:gravity="left"
         android:textSize="21dp"
         android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
         android:text="Stats"/>
 
     <TextView
@@ -35,10 +36,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_skull_multi_72dp"
-        android:layout_above="@+id/textView"
+        android:layout_above="@+id/whatSayYou"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="9dp"
-        android:id="@+id/imageView" />
+        android:layout_marginBottom="12dp"
+        android:id="@+id/endSkull" />
 
     <TextView
         android:text="@string/what_say_you"
@@ -51,6 +52,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="9dp"
-        android:id="@+id/textView" />
+        android:id="@+id/whatSayYou" />
 
 </RelativeLayout>

@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_skull_multi_72dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="67dp"
         android:id="@+id/appLogo"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -29,14 +29,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/appLogo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="21dp"
         android:id="@+id/appTitleTxt" />
 
     <TextView
         android:text="@string/app_purpose"
         android:textStyle="italic"
-        android:textSize="16dp"
+        android:textSize="21dp"
         android:textColor="@color/colorAccent"
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/appTitleTxt"
@@ -46,13 +47,13 @@
 
     <Button
         android:text="@string/start_button"
-        android:textSize="16dp"
+        android:textSize="21dp"
         android:textColor="@color/colorPrimaryDark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button"
         android:onClick="beginInfo"
-        android:layout_marginBottom="114dp"
+        android:layout_marginBottom="89dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 

@@ -187,7 +187,12 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
         Utils.saveSharedSetting(this, CaptureUserInfoActivity.PREF_USER_COUNTRY, "");
         Utils.saveSharedSetting(this, CaptureUserInfoActivity.PREF_USER_DOB, "");
         Utils.saveSharedSetting(this, CaptureUserInfoActivity.PREF_USER_SEX, "");
+        setUserCountry("");
+        setCountryIndex(0);
+        setUserDOB("");
+        setUserSex("");
     }
+
 
 
 
@@ -363,6 +368,10 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 motivateBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        System.out.println(CaptureUserInfoActivity.getUserCountry());
+                        System.out.println(CaptureUserInfoActivity.getUserDOB());
+                        System.out.println(CaptureUserInfoActivity.getUserSex());
                         // TODO: switch to tab if there is missing input?
                         // Check if information has been entered for the previous sections
                         if(CaptureUserInfoActivity.getUserCountry().isEmpty()){
@@ -375,6 +384,9 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                             // Save the country selected in the dropdown by the user
                             Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_COUNTRY, CaptureUserInfoActivity.getUserCountry());
 
+                            // Save date of birth in user prefs
+                            Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_DOB, CaptureUserInfoActivity.getUserDOB());
+
                             // Obtain the user's sex selected by the radio buttons and store it
                             Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_SEX, CaptureUserInfoActivity.getUserSex());
 
@@ -383,8 +395,6 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                                 // Start activity to display captured info
                                 Intent intent = new Intent(getActivity(), DisplayUserInfoActivity.class);
                                 startActivity(intent);
-                                // keep user in the countdown activity
-                                getActivity().finish();
                             } else {
                                 // Notify the user that they need to have a connection
                                 Toast.makeText(getActivity(), "Network unavailable, please connect to a network", Toast.LENGTH_LONG).show();
@@ -470,8 +480,6 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             Calendar temp = Calendar.getInstance();
             temp.set(year,month,day);
             CaptureUserInfoActivity.setUserDOB(sdf.format(temp.getTime()));
-            // Save date of birth in user prefs
-            Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_DOB, CaptureUserInfoActivity.getUserDOB());
             // Set text of button to the date selected by the user
             CaptureUserInfoActivity.getDobButton().setText(getResources().getString(R.string.dob_btn_display, CaptureUserInfoActivity.getUserDOB()));
         }

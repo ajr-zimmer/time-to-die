@@ -1,5 +1,6 @@
 package com.ttd.cain.timetodie.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     static final String TAG = MainActivity.class.getSimpleName();
+
+    private ProgressDialog progressDialog;
 
     Intent initialUserInfoCapture;
 
@@ -47,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            // Display the progress dialog while executing REST call
+            progressDialog = new ProgressDialog(MainActivity.this);
+            progressDialog.setMessage("Obtaining country information...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
         }
 
         @Override
@@ -106,6 +114,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+            // Dismiss the progress dialog
+            if(progressDialog.isShowing()){
+                progressDialog.dismiss();
+            }
             // Start the tabbed CaptureUserInfoActivity that captures user input
             // Starting activity here so that the spinner is populated in time
             startActivity(initialUserInfoCapture);

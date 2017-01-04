@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/appTitleTxt"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:id="@+id/appPurposeTxt" />
 
     <Button
@@ -53,8 +53,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/button"
         android:onClick="beginInfo"
-        android:layout_marginBottom="89dp"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/appPurposeTxt"
+        android:layout_marginTop="37dp"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

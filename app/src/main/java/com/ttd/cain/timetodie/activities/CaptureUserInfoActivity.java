@@ -375,9 +375,9 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 motivateBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.i(TAG, "Country = " + CaptureUserInfoActivity.getUserCountry());
-                        Log.i(TAG, "DOB = " + CaptureUserInfoActivity.getUserDOB());
-                        Log.i(TAG, "Sex = " + CaptureUserInfoActivity.getUserSex());
+                        //Log.i(TAG, "Country = " + CaptureUserInfoActivity.getUserCountry());
+                        //Log.i(TAG, "DOB = " + CaptureUserInfoActivity.getUserDOB());
+                        //Log.i(TAG, "Sex = " + CaptureUserInfoActivity.getUserSex());
                         // TODO: switch to tab if there is missing input?
                         // Check if information has been entered for the previous sections
                         if(CaptureUserInfoActivity.getUserCountry().isEmpty()){

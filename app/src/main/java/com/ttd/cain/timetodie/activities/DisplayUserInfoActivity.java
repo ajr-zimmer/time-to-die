@@ -132,14 +132,14 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
             // Making a request to url and getting response
             String jsonResponse = sh.makeServiceCall(timeLeftURL);
 
-            Log.i(TAG, "Response from url: " + jsonResponse);
+            //Log.i(TAG, "Response from url: " + jsonResponse);
 
             if (jsonResponse != null) {
                 try {
                     JSONObject responseObject = new JSONObject(jsonResponse);
                     yearsLeft = responseObject.getDouble("remaining_life_expectancy");
                 } catch (final JSONException e) {
-                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+                    //Log.e(TAG, "Json parsing error: " + e.getMessage());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -151,7 +151,7 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
                     });
                 }
             } else {
-                Log.e(TAG, "Couldn't get json from server.");
+                //Log.e(TAG, "Couldn't get json from server.");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -168,7 +168,7 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            Log.i(TAG, "Years left: "+ yearsLeft);
+            //Log.i(TAG, "Years left: "+ yearsLeft);
 
             // In the Gregorian calendar, a year has on average 365.2425 days.
             long millisLeftToLive = (long)(yearsLeft * (365.2425 * 24 * 60 * 60 * 1000));

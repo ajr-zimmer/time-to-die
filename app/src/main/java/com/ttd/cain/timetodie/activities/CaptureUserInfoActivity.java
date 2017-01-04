@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,6 +45,8 @@ import java.util.Date;
 import static android.view.Gravity.CENTER;
 
 public class CaptureUserInfoActivity extends AppCompatActivity {
+
+    static final String TAG = CaptureUserInfoActivity.class.getSimpleName();
 
     public static final String PREF_USER_COUNTRY = "user_country";
     private static String userCountry = "";
@@ -372,10 +375,9 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 motivateBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        System.out.println(CaptureUserInfoActivity.getUserCountry());
-                        System.out.println(CaptureUserInfoActivity.getUserDOB());
-                        System.out.println(CaptureUserInfoActivity.getUserSex());
+                        Log.i(TAG, "Country = " + CaptureUserInfoActivity.getUserCountry());
+                        Log.i(TAG, "DOB = " + CaptureUserInfoActivity.getUserDOB());
+                        Log.i(TAG, "Sex = " + CaptureUserInfoActivity.getUserSex());
                         // TODO: switch to tab if there is missing input?
                         // Check if information has been entered for the previous sections
                         if(CaptureUserInfoActivity.getUserCountry().isEmpty()){

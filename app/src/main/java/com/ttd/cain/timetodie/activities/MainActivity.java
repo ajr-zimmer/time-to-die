@@ -27,9 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
-    Intent initialUserInfoCapture;
+    Intent captureUserInfo;
 
-    // List to hold the countries retrieved from the upcoming REST call
     private static ArrayList<String> countries;
     public static ArrayList<String> getCountries(){ return countries;}
     public static void setCountries(ArrayList<String> updatedCountryList){ countries = updatedCountryList;}
@@ -53,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // Display the progress dialog while executing REST call
             progressDialog = new ProgressDialog(MainActivity.this);
             progressDialog.setMessage("Obtaining country information...");
             progressDialog.setCancelable(false);
@@ -117,13 +115,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            // Dismiss the progress dialog
             if(progressDialog.isShowing()){
                 progressDialog.dismiss();
             }
-            // Start the tabbed CaptureUserInfoActivity that captures user input
             // Starting activity here so that the spinner is populated in time
-            startActivity(initialUserInfoCapture);
+            startActivity(captureUserInfo);
             finish(); // finish this initial screen
         }
 
@@ -131,8 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void beginInfo(View view){
         if(Utils.isConnectedToNetwork(this)){
-            initialUserInfoCapture = new Intent(this, CaptureUserInfoActivity.class);
-            // TODO: Show progress dialog while pulling in data
+            captureUserInfo = new Intent(this, CaptureUserInfoActivity.class);
             new GetCountries().execute();
         } else {
             // Notify the user that they need to have a network connection

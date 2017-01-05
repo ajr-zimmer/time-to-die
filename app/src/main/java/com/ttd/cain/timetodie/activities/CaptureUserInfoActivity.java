@@ -103,7 +103,6 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
         // Explicitly set so that users with API version < 21 can see the vector images
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
-        // Create the adapter that will return a fragment for each of the three primary section of the activity
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         mBackBtn = (ImageButton) findViewById(R.id.tutorial_btn_back);
@@ -118,7 +117,6 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
         indicators = new ImageView[]{zero, one, two, three};
 
-        // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
@@ -462,8 +460,9 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             final Calendar c = Calendar.getInstance();
             // If the date has been set previously, show that date in the picker
             if(!CaptureUserInfoActivity.getUserDOB().isEmpty()){
-                String[] dates = CaptureUserInfoActivity.getUserDOB().split("-");
-                c.set(Integer.parseInt(dates[0]), Integer.parseInt(dates[1]), Integer.parseInt(dates[2]));
+                String[] date = CaptureUserInfoActivity.getUserDOB().split("-");
+                // the -1 is there to set the month back to the zero-indexed format
+                c.set(Integer.parseInt(date[0]), Integer.parseInt(date[1])-1, Integer.parseInt(date[2]));
             }
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);

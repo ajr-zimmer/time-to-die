@@ -1,4 +1,5 @@
 # Time to Die
+![Logo](app/src/main/res/mipmap-xxxhdpi/ttd_launcher.png)
 ## Motivation
 To create a motivational app that embraces the concept of *memento mori*.
 My goal is to remind the user of their eventual expiration date. My hope is that they will realize that they have one awesome life to live, so they had better get around to living it!

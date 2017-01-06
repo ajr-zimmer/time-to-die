@@ -248,6 +248,8 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
         int[] bgs = new int[]{R.drawable.ic_globe_black_512dp, R.drawable.ic_hourglass_black_1000dp,
                 R.drawable.ic_people_black_512dp, R.drawable.ic_skull_multi_72dp};
 
+        LinearLayout replaceableInput;
+
         public PlaceholderFragment() { }
 
         /**
@@ -284,41 +286,20 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             txtHowTo = (TextView) rootView.findViewById(R.id.section_body);
             txtHowTo.setText(textBodies[getArguments().getInt(ARG_SECTION_NUMBER)-1]);
 
-            // Modify the input method based on the section
-            final LinearLayout replaceableInput = (LinearLayout) rootView.findViewById(R.id.replaceable);
+            // Creates different input methods based on section
+            replaceableInput = (LinearLayout) rootView.findViewById(R.id.replaceable);
+            generateSectionInputMethods(getArguments().getInt(ARG_SECTION_NUMBER));
 
+            return rootView;
+        }
 
+        public void generateSectionInputMethods(int sectionNumber){
             /** User has swiped to the Country section*/
-            if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
-                Spinner countryInput = new Spinner(getActivity());
-                // Create an ArrayAdapter using the ArrayList of countries and a default spinner layout
-                final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, MainActivity.getCountries());
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                countryInput.setAdapter(adapter);
-                countryInput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if(position != 0){ // Anything that is not the spinner "hint"
-                            CaptureUserInfoActivity.setUserCountry(parent.getItemAtPosition(position).toString());
-                            setCountryIndex(position);
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                        /**
-                         * Callback method to be invoked when the selection disappears from this view.
-                         * The selection can disappear for instance when touch is activated or when the adapter becomes empty.
-                         */
-                    }
-                });
-                // Explicitly set the selection to show what country has been selected, even when the user swipes away
-                countryInput.setSelection(getCountryIndex());
-                replaceableInput.addView(countryInput);
-
+            if(sectionNumber == 1){
+                replaceableInput.addView(generateCountryInput());
 
                 /** User has swiped to the Date of Birth section*/
-            } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
+            } else if(sectionNumber == 2){
                 Button dateOfBirthButton = new Button(getActivity());
                 if(getUserDOB().isEmpty()){
                     // Show default prompt if nothing has been chosen
@@ -341,31 +322,8 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
 
                 /** User has swiped to the Sex section*/
-            } else if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){
-                final RadioButton[] rb = new RadioButton[2];
-                String[] sexes = getResources().getStringArray(R.array.sexes);
-                RadioGroup rg = new RadioGroup(getActivity());
-                rg.setOrientation(RadioGroup.HORIZONTAL);
-                rg.setGravity(CENTER);
-                for(int i=0; i<2; i++){
-                    rb[i] = new RadioButton(getActivity());
-                    rb[i].setText(sexes[i]);
-                    rb[i].setId(i + 100); // need to be careful to avoid id collisions
-                    rg.addView(rb[i]);
-                }
-                rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        for(int i=0; i<group.getChildCount(); i++){
-                            RadioButton btn = (RadioButton) group.getChildAt(i);
-                            if(btn.getId() == checkedId){
-                                CaptureUserInfoActivity.setUserSex(btn.getText().toString().toLowerCase());
-                                return;
-                            }
-                        }
-                    }
-                });
-                replaceableInput.addView(rg);
+            } else if(sectionNumber == 3){
+                replaceableInput.addView(generateSexInput());
 
             } else { // Final "Launch" section
                 Button motivateBtn = new Button(getActivity());
@@ -401,8 +359,67 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 replaceableInput.addView(motivateBtn);
             }
 
-            return rootView;
         }
+
+        public Spinner generateCountryInput(){
+            Spinner countryInput = new Spinner(getActivity());
+            // Create an ArrayAdapter using the ArrayList of countries and a default spinner layout
+            final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, MainActivity.getCountries());
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            countryInput.setAdapter(adapter);
+            countryInput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if(position != 0){ // Anything that is not the spinner "hint"
+                        CaptureUserInfoActivity.setUserCountry(parent.getItemAtPosition(position).toString());
+                        setCountryIndex(position);
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    /**
+                     * Callback method to be invoked when the selection disappears from this view.
+                     * The selection can disappear for instance when touch is activated or when the adapter becomes empty.
+                     */
+                }
+            });
+            // Explicitly set the selection to show what country has been selected, even when the user swipes away
+            countryInput.setSelection(getCountryIndex());
+            return countryInput;
+        }
+
+        public void generateDateOfBirthInput(){
+
+        }
+
+        public RadioGroup generateSexInput(){
+            final RadioButton[] rb = new RadioButton[2];
+            String[] sexes = getResources().getStringArray(R.array.sexes);
+            RadioGroup rg = new RadioGroup(getActivity());
+            rg.setOrientation(RadioGroup.HORIZONTAL);
+            rg.setGravity(CENTER);
+            for(int i=0; i<2; i++){
+                rb[i] = new RadioButton(getActivity());
+                rb[i].setText(sexes[i]);
+                rb[i].setId(i + 100); // need to be careful to avoid id collisions
+                rg.addView(rb[i]);
+            }
+            rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    for(int i=0; i<group.getChildCount(); i++){
+                        RadioButton btn = (RadioButton) group.getChildAt(i);
+                        if(btn.getId() == checkedId){
+                            CaptureUserInfoActivity.setUserSex(btn.getText().toString().toLowerCase());
+                            return;
+                        }
+                    }
+                }
+            });
+            return rg;
+        }
+
     }
 
     /**

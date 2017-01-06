@@ -306,40 +306,10 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             } else if(sectionNumber == 3){
                 replaceableInput.addView(generateSexInput());
 
-            } else { // Final "Launch" section
-                Button motivateBtn = new Button(getActivity());
-                motivateBtn.setText(R.string.motivate_btn_text);
-                motivateBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.i(TAG, "Country = " + CaptureUserInfoActivity.getUserCountry());
-                        Log.i(TAG, "DOB = " + CaptureUserInfoActivity.getUserDOB());
-                        Log.i(TAG, "Sex = " + CaptureUserInfoActivity.getUserSex());
-                        // Check if information has been entered for the previous sections
-                        if(CaptureUserInfoActivity.getUserCountry().isEmpty()){
-                            Toast.makeText(getContext(), "Please input your country of residence", Toast.LENGTH_SHORT).show();
-                        } else if (CaptureUserInfoActivity.getUserDOB().isEmpty()){
-                            Toast.makeText(getContext(), "Please input your date of birth", Toast.LENGTH_SHORT).show();
-                        } else if(CaptureUserInfoActivity.getUserSex().isEmpty()){
-                            Toast.makeText(getContext(), "Please input your sex", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_COUNTRY, CaptureUserInfoActivity.getUserCountry());
-                            Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_DOB, CaptureUserInfoActivity.getUserDOB());
-                            Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_SEX, CaptureUserInfoActivity.getUserSex());
-
-                            // Make sure the user still has a network connection for the next REST call
-                            if(Utils.isUserConnectedToNetwork(getActivity())){
-                                Intent displayUserInfo = new Intent(getActivity(), DisplayUserInfoActivity.class);
-                                startActivity(displayUserInfo);
-                            } else {
-                                Toast.makeText(getActivity(), "Network unavailable, please connect to a network", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    }
-                });
-                replaceableInput.addView(motivateBtn);
+                /** User has swiped to the final "Motivate!" section*/
+            } else {
+                replaceableInput.addView(generateMotivateButton());
             }
-
         }
 
         public Spinner generateCountryInput(){
@@ -417,6 +387,40 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                 }
             });
             return rg;
+        }
+
+        public Button generateMotivateButton(){
+            Button motivateBtn = new Button(getActivity());
+            motivateBtn.setText(R.string.motivate_btn_text);
+            motivateBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i(TAG, "Country = " + CaptureUserInfoActivity.getUserCountry());
+                    Log.i(TAG, "DOB = " + CaptureUserInfoActivity.getUserDOB());
+                    Log.i(TAG, "Sex = " + CaptureUserInfoActivity.getUserSex());
+                    // Check if information has been entered for the previous sections
+                    if(CaptureUserInfoActivity.getUserCountry().isEmpty()){
+                        Toast.makeText(getContext(), "Please input your country of residence", Toast.LENGTH_SHORT).show();
+                    } else if (CaptureUserInfoActivity.getUserDOB().isEmpty()){
+                        Toast.makeText(getContext(), "Please input your date of birth", Toast.LENGTH_SHORT).show();
+                    } else if(CaptureUserInfoActivity.getUserSex().isEmpty()){
+                        Toast.makeText(getContext(), "Please input your sex", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_COUNTRY, CaptureUserInfoActivity.getUserCountry());
+                        Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_DOB, CaptureUserInfoActivity.getUserDOB());
+                        Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_SEX, CaptureUserInfoActivity.getUserSex());
+
+                        // Make sure the user still has a network connection for the next REST call
+                        if(Utils.isUserConnectedToNetwork(getActivity())){
+                            Intent displayUserInfo = new Intent(getActivity(), DisplayUserInfoActivity.class);
+                            startActivity(displayUserInfo);
+                        } else {
+                            Toast.makeText(getActivity(), "Network unavailable, please connect to a network", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+            });
+            return motivateBtn;
         }
 
     }

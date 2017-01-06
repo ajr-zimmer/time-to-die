@@ -8,8 +8,8 @@ android {
         applicationId "com.ttd.cain.timetodie"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         // Added this so that apps with API<21 can use vector graphics as image views
         vectorDrawables.useSupportLibrary = true
     }

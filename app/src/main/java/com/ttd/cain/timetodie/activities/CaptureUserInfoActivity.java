@@ -300,26 +300,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
                 /** User has swiped to the Date of Birth section*/
             } else if(sectionNumber == 2){
-                Button dateOfBirthButton = new Button(getActivity());
-                if(getUserDOB().isEmpty()){
-                    // Show default prompt if nothing has been chosen
-                    dateOfBirthButton.setText(R.string.dob_btn_text);
-                } else {
-                    // Set text of button to the date selected by the user
-                    dateOfBirthButton.setText(getResources().getString(R.string.dob_btn_display, getUserDOB()));
-                }
-                dateOfBirthButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Create new fragment to display the date picker
-                        DialogFragment newFragment = new DateOfBirthFragment();
-                        newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
-                    }
-                });
-                replaceableInput.addView(dateOfBirthButton);
-                // Set here so that the onDateSet method can change the text of the button
-                CaptureUserInfoActivity.setDobButton(dateOfBirthButton);
-
+                replaceableInput.addView(generateDateOfBirthInput());
 
                 /** User has swiped to the Sex section*/
             } else if(sectionNumber == 3){
@@ -389,8 +370,26 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             return countryInput;
         }
 
-        public void generateDateOfBirthInput(){
-
+        public Button generateDateOfBirthInput(){
+            Button dateOfBirthButton = new Button(getActivity());
+            if(getUserDOB().isEmpty()){
+                // Show default prompt if nothing has been chosen
+                dateOfBirthButton.setText(R.string.dob_btn_text);
+            } else {
+                // Set text of button to the date selected by the user
+                dateOfBirthButton.setText(getResources().getString(R.string.dob_btn_display, getUserDOB()));
+            }
+            dateOfBirthButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Create new fragment to display the date picker
+                    DialogFragment newFragment = new DateOfBirthFragment();
+                    newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+                }
+            });
+            // Set here so that the onDateSet method can change the text of the button
+            CaptureUserInfoActivity.setDobButton(dateOfBirthButton);
+            return dateOfBirthButton;
         }
 
         public RadioGroup generateSexInput(){

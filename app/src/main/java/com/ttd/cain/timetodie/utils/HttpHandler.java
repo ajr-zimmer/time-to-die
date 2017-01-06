@@ -1,6 +1,6 @@
 package com.ttd.cain.timetodie.utils;
 
-import android.util.Log;
+//import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -33,13 +33,13 @@ public class HttpHandler {
             InputStream in = new BufferedInputStream(conn.getInputStream());
             response = convertStreamToString(in);
         } catch (MalformedURLException e){
-            Log.e(TAG, "MalformedURLException: " + e.getMessage());
+            //Log.e(TAG, "MalformedURLException: " + e.getMessage());
         } catch (ProtocolException e) {
-            Log.e(TAG, "ProtocolException: " + e.getMessage());
+            //Log.e(TAG, "ProtocolException: " + e.getMessage());
         } catch (IOException e) {
-            Log.e(TAG, "IOException: " + e.getMessage());
+            //Log.e(TAG, "IOException: " + e.getMessage());
         } catch (Exception e) {
-            Log.e(TAG, "Exception: " + e.getMessage());
+            //Log.e(TAG, "Exception: " + e.getMessage());
         }
         return response;
     }

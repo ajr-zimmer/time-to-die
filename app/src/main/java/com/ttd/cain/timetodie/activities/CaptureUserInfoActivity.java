@@ -15,7 +15,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
-import android.util.Log;
+//import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -395,9 +395,9 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             motivateBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.i(TAG, "Country = " + CaptureUserInfoActivity.getUserCountry());
-                    Log.i(TAG, "DOB = " + CaptureUserInfoActivity.getUserDOB());
-                    Log.i(TAG, "Sex = " + CaptureUserInfoActivity.getUserSex());
+                    //Log.i(TAG, "Country = " + CaptureUserInfoActivity.getUserCountry());
+                    //Log.i(TAG, "DOB = " + CaptureUserInfoActivity.getUserDOB());
+                    //Log.i(TAG, "Sex = " + CaptureUserInfoActivity.getUserSex());
                     // Check if information has been entered for the previous sections
                     if(CaptureUserInfoActivity.getUserCountry().isEmpty()){
                         Toast.makeText(getContext(), "Please input your country of residence", Toast.LENGTH_SHORT).show();

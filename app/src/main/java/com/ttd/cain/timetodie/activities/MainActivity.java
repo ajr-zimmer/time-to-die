@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
-import android.util.Log;
+//import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             // Making a request to url and getting response
             String jsonResponse = sh.makeServiceCall(countriesURL);
 
-            Log.i(TAG, "Response from url: " + jsonResponse);
+            //Log.i(TAG, "Response from url: " + jsonResponse);
 
             if (jsonResponse != null) {
                 try {
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     countries.add(0, "Country of Residence, Please");
                     setCountries(countries);
                 } catch (final JSONException e) {
-                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+                    //Log.e(TAG, "Json parsing error: " + e.getMessage());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
             } else {
-                Log.e(TAG, "Couldn't get json from server.");
+                //Log.e(TAG, "Couldn't get json from server.");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

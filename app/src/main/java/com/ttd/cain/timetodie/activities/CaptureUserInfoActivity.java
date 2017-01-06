@@ -376,7 +376,6 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                         Log.i(TAG, "Country = " + CaptureUserInfoActivity.getUserCountry());
                         Log.i(TAG, "DOB = " + CaptureUserInfoActivity.getUserDOB());
                         Log.i(TAG, "Sex = " + CaptureUserInfoActivity.getUserSex());
-                        // TODO: switch to tab if there is missing input?
                         // Check if information has been entered for the previous sections
                         if(CaptureUserInfoActivity.getUserCountry().isEmpty()){
                             Toast.makeText(getContext(), "Please input your country of residence", Toast.LENGTH_SHORT).show();
@@ -385,22 +384,15 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
                         } else if(CaptureUserInfoActivity.getUserSex().isEmpty()){
                             Toast.makeText(getContext(), "Please input your sex", Toast.LENGTH_SHORT).show();
                         } else {
-                            // Save the country selected in the dropdown by the user
                             Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_COUNTRY, CaptureUserInfoActivity.getUserCountry());
-
-                            // Save date of birth in user prefs
                             Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_DOB, CaptureUserInfoActivity.getUserDOB());
-
-                            // Obtain the user's sex selected by the radio buttons and store it
                             Utils.saveSharedSetting(getActivity(), CaptureUserInfoActivity.PREF_USER_SEX, CaptureUserInfoActivity.getUserSex());
 
                             // Make sure the user still has a network connection for the next REST call
-                            if(Utils.isConnectedToNetwork(getActivity())){
-                                // Start activity to display captured info
-                                Intent intent = new Intent(getActivity(), DisplayUserInfoActivity.class);
-                                startActivity(intent);
+                            if(Utils.isUserConnectedToNetwork(getActivity())){
+                                Intent displayUserInfo = new Intent(getActivity(), DisplayUserInfoActivity.class);
+                                startActivity(displayUserInfo);
                             } else {
-                                // Notify the user that they need to have a connection
                                 Toast.makeText(getActivity(), "Network unavailable, please connect to a network", Toast.LENGTH_LONG).show();
                             }
                         }
@@ -473,7 +465,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             // Restrict what DOB's the user can enter
             final Calendar oldestDOB = Calendar.getInstance();
             // Rolling window of 125 years
-            oldestDOB.set(year-125,0,1); // Remember that months are zero-indexed
+            oldestDOB.set(year-125,0,1);
             dialog.getDatePicker().setMinDate(oldestDOB.getTimeInMillis());
             dialog.getDatePicker().setMaxDate(new Date().getTime());
             return dialog;

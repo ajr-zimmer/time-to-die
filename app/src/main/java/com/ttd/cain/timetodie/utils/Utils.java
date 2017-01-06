@@ -28,7 +28,7 @@ public class Utils {
     }
 
     // Utility method to check whether or not the user is connected to a network
-    public static boolean isConnectedToNetwork(Context ctx){
+    public static boolean isUserConnectedToNetwork(Context ctx){
         ConnectivityManager connectivityManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();

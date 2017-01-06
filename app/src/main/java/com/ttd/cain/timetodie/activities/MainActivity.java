@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -74,8 +75,6 @@ public class MainActivity extends AppCompatActivity {
                     // Getting JSON Array node
                     JSONArray countriesFromAPI = responseObject.getJSONArray("countries");
                     ArrayList<String> countries = getCountries();
-                    // Add default "hint" at the top of the spinner
-                    countries.add("Country of Residence, Please");
 
                     // looping through All Contacts
                     for (int i = 0; i < countriesFromAPI.length(); i++) {
@@ -84,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
                             countries.add(countriesFromAPI.getString(i));
                         }
                     }
+                    // Sort countries into alphabetical order
+                    Collections.sort(countries);
+                    // Add default "hint" at the top of the spinner
+                    countries.add(0, "Country of Residence, Please");
                     setCountries(countries);
                 } catch (final JSONException e) {
                     Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -120,17 +123,16 @@ public class MainActivity extends AppCompatActivity {
             }
             // Starting activity here so that the spinner is populated in time
             startActivity(captureUserInfo);
-            finish(); // finish this initial screen
+            finish();
         }
 
     }
 
     public void beginInfo(View view){
-        if(Utils.isConnectedToNetwork(this)){
+        if(Utils.isUserConnectedToNetwork(this)){
             captureUserInfo = new Intent(this, CaptureUserInfoActivity.class);
             new GetCountries().execute();
         } else {
-            // Notify the user that they need to have a network connection
             Toast.makeText(this, "Network unavailable, please connect to a network", Toast.LENGTH_LONG).show();
         }
     }

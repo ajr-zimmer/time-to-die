@@ -188,18 +188,8 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             }
         });
 
-        // Clear out user prefs from the previous run-through
-        Utils.saveSharedSetting(this, CaptureUserInfoActivity.PREF_USER_COUNTRY, "");
-        Utils.saveSharedSetting(this, CaptureUserInfoActivity.PREF_USER_DOB, "");
-        Utils.saveSharedSetting(this, CaptureUserInfoActivity.PREF_USER_SEX, "");
-        setUserCountry("");
-        setCountryIndex(0);
-        setUserDOB("");
-        setUserSex("");
+        clearPreviousUserPrefs();
     }
-
-
-
 
     // Matches the grey circles to the page that the user is currently on
     void updateIndicators(int position){
@@ -207,6 +197,16 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             indicators[i].setBackgroundResource(i == position ?
                     R.drawable.indicator_selected : R.drawable.indicator_unselected);
         }
+    }
+
+    void clearPreviousUserPrefs(){
+        Utils.saveSharedSetting(this, CaptureUserInfoActivity.PREF_USER_COUNTRY, "");
+        Utils.saveSharedSetting(this, CaptureUserInfoActivity.PREF_USER_DOB, "");
+        Utils.saveSharedSetting(this, CaptureUserInfoActivity.PREF_USER_SEX, "");
+        setUserCountry("");
+        setCountryIndex(0);
+        setUserDOB("");
+        setUserSex("");
     }
 
     @Override
@@ -411,9 +411,7 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
+        public SectionsPagerAdapter(FragmentManager fm) { super(fm); }
 
         @Override
         public Fragment getItem(int position) {
@@ -446,29 +444,38 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
 
     public static class DateOfBirthFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
+        DatePickerDialog dialog;
+        Calendar current;
+        int year;
+        int month;
+        int day;
+
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState){
             // Use current date as default date
-            final Calendar c = Calendar.getInstance();
-            // If the date has been set previously, show that date in the picker
+            current = Calendar.getInstance();
+            setDateIfPreviouslySet();
+            year = current.get(Calendar.YEAR);
+            month = current.get(Calendar.MONTH);
+            day = current.get(Calendar.DAY_OF_MONTH);
+            dialog = new DatePickerDialog(getActivity(), android.R.style.Theme_Holo_Dialog, this, year, month, day);
+            restrictDateInput();
+            return dialog;
+        }
+
+        public void setDateIfPreviouslySet(){
             if(!CaptureUserInfoActivity.getUserDOB().isEmpty()){
                 String[] date = CaptureUserInfoActivity.getUserDOB().split("-");
                 // the -1 is there to set the month back to the zero-indexed format
-                c.set(Integer.parseInt(date[0]), Integer.parseInt(date[1])-1, Integer.parseInt(date[2]));
+                current.set(Integer.parseInt(date[0]), Integer.parseInt(date[1])-1, Integer.parseInt(date[2]));
             }
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-            // The theme below is there to force the picker to be a spinner
-            DatePickerDialog dialog = new DatePickerDialog(getActivity(), android.R.style.Theme_Holo_Dialog, this, year, month, day);
+        }
 
-            // Restrict what DOB's the user can enter
-            final Calendar oldestDOB = Calendar.getInstance();
-            // Rolling window of 125 years
-            oldestDOB.set(year-125,0,1);
+        public void restrictDateInput(){
+            Calendar oldestDOB = Calendar.getInstance();
+            oldestDOB.set(year-125,0,1); // rolling window of 125 years
             dialog.getDatePicker().setMinDate(oldestDOB.getTimeInMillis());
             dialog.getDatePicker().setMaxDate(new Date().getTime());
-            return dialog;
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day){
@@ -477,7 +484,6 @@ public class CaptureUserInfoActivity extends AppCompatActivity {
             Calendar temp = Calendar.getInstance();
             temp.set(year,month,day);
             CaptureUserInfoActivity.setUserDOB(sdf.format(temp.getTime()));
-            // Set text of button to the date selected by the user
             CaptureUserInfoActivity.getDobButton().setText(getResources().getString(R.string.dob_btn_display, CaptureUserInfoActivity.getUserDOB()));
         }
     }

@@ -1,5 +1,6 @@
 package com.ttd.cain.timetodie.activities;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import java.util.Calendar;
 public class DisplayUserInfoActivity extends AppCompatActivity {
 
     static final String TAG = DisplayUserInfoActivity.class.getSimpleName();
+    private ProgressDialog progressDialog;
     TextView countdownText;
 
     String country;
@@ -122,6 +124,10 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog = new ProgressDialog(DisplayUserInfoActivity.this);
+            progressDialog.setMessage("Calculating life left...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
         }
 
         @Override
@@ -168,6 +174,9 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+            if(progressDialog.isShowing()){
+                progressDialog.dismiss();
+            }
             Log.i(TAG, "Years left: "+ yearsLeft);
 
             // In the Gregorian calendar, a year has on average 365.2425 days.
@@ -197,9 +206,6 @@ public class DisplayUserInfoActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onFinish(){
-            countdownText.setText("Completed. You Should Be Dead.");
-        }
-
+        public void onFinish(){ countdownText.setText("Completed. You Should Be Dead."); }
     }
 }
